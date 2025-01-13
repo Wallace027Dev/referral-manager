@@ -7,18 +7,14 @@ import { useRouter } from "next/navigation";
 import Form from "@/_styles/AccountForm";
 import validateLogin from "@/_validators/validateLogin";
 import InputField from "@/_components/InputField";
-
-type FormData = {
-  whatsapp: string;
-  password: string;
-};
+import submitLogin, { LoginFormData } from "./submitLogin";
 
 export default function LoginPage() {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormData>({
+  } = useForm<LoginFormData>({
     resolver: yupResolver(validateLogin)
   });
 
@@ -27,32 +23,10 @@ export default function LoginPage() {
 
   const router = useRouter();
 
-  const onSubmit = async (data: FormData) => {
-    setLoading(true);
-    setMessage(null);
-
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-
-      if (response.ok) {
-        router.push("/dashboard");
-      } else {
-        const { message } = await response.json();
-        setMessage(message || "Erro ao realizar login.");
-      }
-    } catch {
-      setMessage("Erro ao realizar login. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit((data) =>
+      submitLogin(data, setLoading, setMessage, router)
+    )}>
       <InputField
         id="input-whatsapp"
         label="WhatsApp"

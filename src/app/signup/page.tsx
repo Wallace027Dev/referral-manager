@@ -6,9 +6,8 @@ import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Form from "@/_styles/AccountForm";
 import validateSignup from "@/_validators/validateSignup";
-import SignupFormData from "@/_types/SignupFormData";
 import InputField from "@/_components/InputField";
-import submitSignup from "./submitSignup";
+import submitSignup, { SignupFormData } from "./submitSignup";
 
 export default function Page() {
   const {

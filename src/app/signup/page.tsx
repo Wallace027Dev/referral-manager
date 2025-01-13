@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Form from "./style";
+import Form from "@/_styles/AccountForm";
 
 // Definindo o esquema de validação
 const schema = yup.object().shape({

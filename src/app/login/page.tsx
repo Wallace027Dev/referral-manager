@@ -1,43 +1,98 @@
 "use client";
-import Form from "../signup/style";
 
-export default function Login() {
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Form from "@/_styles/AccountForm";
+
+// Definindo o esquema de validação
+const schema = yup.object().shape({
+  whatsapp: yup
+    .string()
+    .trim()
+    .matches(/^\d{10,11}$/, "O WhatsApp deve ter entre 10 e 11 dígitos.")
+    .required("O WhatsApp é obrigatório."),
+  password: yup
+    .string()
+    .min(6, "A senha deve ter pelo menos 6 caracteres.")
+    .required("A senha é obrigatória."),
+});
+
+type FormData = {
+  whatsapp: string;
+  password: string;
+};
+
+export default function LoginPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+  });
+
+  const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const onSubmit = async (data: FormData) => {
+    setLoading(true);
+    setMessage(null);
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      setLoading(false);
+
+      if (response.ok) {
+        router.push("/dashboard");
+      } else {
+        setMessage(result.message || "Erro ao realizar login.");
+      }
+    } catch (error) {
+      setLoading(false);
+      setMessage("Erro ao realizar login. Tente novamente.");
+    }
+  };
+
   return (
-    <Form
-      onSubmit={(e) => {
-        e.preventDefault();
-        alert("Formulário enviado!");
-      }}
-    >
-      <div className="mb-3">
-        <label className="form-label" htmlFor="input-whatsapp">
-          Whatsapp:
-        </label>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label htmlFor="input-whatsapp">WhatsApp:</label>
         <input
           type="tel"
-          className="form-control"
-          name="whatsapp"
           id="input-whatsapp"
-          pattern="\d{10,11}" // Valida números de 10 ou 11 dígitos
-          required
+          {...register("whatsapp")}
+          placeholder="Seu número com DDD"
         />
+        <p>{errors.whatsapp?.message}</p>
       </div>
-      <div className="mb-3">
-        <label className="form-label" htmlFor="input-password">
-          Senha:
-        </label>
+      <div>
+        <label htmlFor="input-password">Senha:</label>
         <input
           type="password"
-          className="form-control"
-          name="password"
           id="input-password"
-          required
+          {...register("password")}
+          placeholder="Sua senha"
         />
+        <p>{errors.password?.message}</p>
       </div>
 
-      <button className="btn btn-primary w-100" type="submit">
-        Cadastrar
+      <button type="submit" disabled={loading}>
+        {loading ? "Entrando..." : "Entrar"}
       </button>
+
+      {message && <p>{message}</p>}
     </Form>
   );
 }

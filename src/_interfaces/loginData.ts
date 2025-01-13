@@ -1,6 +1,7 @@
-interface ISignupData {
+interface ILoginData {
+  name: string;
   whatsapp: string;
   password: string;
 }
 
-export default ISignupData;
+export default ILoginData;

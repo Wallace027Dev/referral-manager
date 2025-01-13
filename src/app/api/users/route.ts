@@ -12,6 +12,16 @@ export async function GET(req: NextRequest) {
   }
 }
 
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+
+    return await usersController.create(body);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
 // Função para extrair e tratar os query params
 function getQueryParams(req: NextRequest) {
   return {

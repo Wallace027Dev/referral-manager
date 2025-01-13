@@ -1,9 +1,8 @@
-interface signupData {
+interface ISignupData {
   name: string;
-  pix: string;
+  pixKey: string;
   whatsapp: string;
   password: string;
-  confirmPassword: string;
 }
 
-export default signupData;
+export default ISignupData;

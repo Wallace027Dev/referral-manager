@@ -14,12 +14,12 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  whatsapp String  @unique
-  name  String
-  pixKey String
-  password String
-  createdAt DateTime
-  updatedAt DateTime?
-  deletedAt DateTime?
+  id         Int       @id @default(autoincrement())
+  whatsapp   String    @unique
+  name       String
+  pixKey     String
+  password   String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
 }

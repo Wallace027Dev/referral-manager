@@ -1,6 +1,9 @@
+"use client";
+import Form from "../signup/style";
+
 export default function Login() {
   return (
-    <form
+    <Form
       onSubmit={(e) => {
         e.preventDefault();
         alert("Formulário enviado!");
@@ -35,6 +38,6 @@ export default function Login() {
       <button className="btn btn-primary w-100" type="submit">
         Cadastrar
       </button>
-    </form>
+    </Form>
   );
 }

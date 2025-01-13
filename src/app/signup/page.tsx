@@ -3,14 +3,17 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import ISignupData from "@/_interfaces/loginData";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Form from "./style";
 
+// Definindo o esquema de validação
 const schema = yup.object().shape({
   name: yup.string().required("O nome é obrigatório"),
-  pix: yup.string().required("O Pix é obrigatório"),
+  pixKey: yup.string().required("O Pix é obrigatório"),
   whatsapp: yup
     .string()
+    .trim()
     .matches(/^\d{10,11}$/, "O WhatsApp deve ter entre 10 e 11 dígitos")
     .required("O WhatsApp é obrigatório"),
   password: yup
@@ -23,18 +26,52 @@ const schema = yup.object().shape({
     .required("A confirmação de senha é obrigatória")
 });
 
+type FormData = {
+  name: string;
+  pixKey: string;
+  whatsapp: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export default function Page() {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm({
+  } = useForm<FormData>({
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data: ISignupData) => {
-    console.log("Dados enviados:", data);
-    // Aqui você pode enviar os dados para uma API
+  const [message, setMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  // Função que será chamada quando o formulário for enviado
+  const onSubmit = async (data: FormData) => {
+    try {
+      setLoading(true);
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      setLoading(false);
+
+      if (response.ok) {
+        router.replace("/login")
+      } else {
+        setMessage(result.message || "Erro ao cadastrar usuário.");
+      }
+    } catch (error) {
+      setLoading(false);
+      setMessage("Erro ao cadastrar usuário.");
+    }
   };
 
   return (
@@ -46,8 +83,8 @@ export default function Page() {
       </div>
       <div>
         <label htmlFor="pix">Chave Pix:</label>
-        <input type="text" {...register("pix")} />
-        <p>{errors.pix?.message}</p>
+        <input type="text" {...register("pixKey")} />
+        <p>{errors.pixKey?.message}</p>
       </div>
       <div>
         <label htmlFor="whatsapp">Whatsapp:</label>
@@ -65,7 +102,11 @@ export default function Page() {
         <p>{errors.confirmPassword?.message}</p>
       </div>
 
-      <button type="submit">Cadastrar</button>
+      <button type="submit" disabled={loading}>
+        {loading ? "Cadastrando..." : "Cadastrar"}
+      </button>
+
+      {message && <p>{message}</p>}
     </Form>
   );
 }

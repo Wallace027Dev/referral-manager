@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import ISignupData from "@/_interfaces/loginData";
+import Form from "./style";
 
 const schema = yup.object().shape({
   name: yup.string().required("O nome é obrigatório"),
@@ -37,7 +38,7 @@ export default function Page() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="name">Nome:</label>
         <input type="text" {...register("name")} />
@@ -65,6 +66,6 @@ export default function Page() {
       </div>
 
       <button type="submit">Cadastrar</button>
-    </form>
+    </Form>
   );
 }

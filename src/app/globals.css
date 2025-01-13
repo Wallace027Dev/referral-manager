@@ -4,14 +4,17 @@
   font-weight: 400;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 a {
   text-decoration: inherit;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   display: flex;
   justify-content: center;
   min-width: 320px;
@@ -21,4 +24,46 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+/* Reset geral para inputs e buttons */
+input, button {
+  all: unset;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  outline: none;
+}
+
+/* Padding ou bordas específicas após o reset */
+input, button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos de foco */
+input:focus, button:focus {
+  border-color: #4d90fe;
+  outline: none;
+}
+
+/* Estilo básico para button */
+button {
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+/* Estilo de hover */
+button:hover {
+  background-color: #4d90fe;
+}
+
+/* Adicionando transições suaves */
+input, button {
+  transition: all 0.3s ease;
 }

@@ -4,7 +4,7 @@ import prisma from "../../prisma/prisma";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-class LoginService {
+class AccountService {
   async login({ whatsapp, password }: Partial<IUser>) {
     try {
       // Verifica se o whatsapp e a senha foram fornecidos
@@ -52,5 +52,5 @@ class LoginService {
   }
 }
 
-const loginService = new LoginService();
-export default loginService;
+const accountService = new AccountService();
+export default accountService;

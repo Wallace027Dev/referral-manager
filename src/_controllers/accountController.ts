@@ -1,12 +1,11 @@
 import IUser from "@/_interfaces/IUser";
 import loginService from "@/_services/loginService";
-import { NextRequest } from "next/server";
 
-class LoginController {
+class AccountController {
   async login(body: Partial<IUser>) {
     return loginService.login(body);
   }
 }
 
-const loginController = new LoginController();
-export default loginController;
+const accountController = new AccountController();
+export default accountController;

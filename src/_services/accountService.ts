@@ -50,6 +50,52 @@ class AccountService {
       throw new Error(error?.message || "Erro interno ao buscar usuários.");
     }
   }
+
+  async signup({ name, whatsapp, pixKey, password }: Partial<IUser>) {
+    // Validação básica de campos obrigatórios
+    if (!name || !whatsapp || !pixKey || !password) {
+      return NextResponse.json(
+        { message: "Todos os campos são obrigatórios." },
+        { status: 400 }
+      );
+    }
+
+    try {
+      // Verifica se o whatsapp ou pixKey já existe
+      const existingUser = await prisma.user.findFirst({
+        where: {
+          OR: [{ whatsapp }, { pixKey }]
+        }
+      });
+
+      if (existingUser) {
+        return NextResponse.json(
+          { message: "Usuário já cadastrado com esse whatsapp ou pixKey." },
+          { status: 400 }
+        );
+      }
+
+      // Criptografa a senha antes de armazenar
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Cria o novo usuário no banco de dados
+      const newUser = await prisma.user.create({
+        data: {
+          name,
+          whatsapp,
+          pixKey,
+          password: hashedPassword
+        }
+      });
+
+      // Retorna a resposta com os dados do usuário (sem a senha)
+      const { password: _, ...userWithoutPassword } = newUser;
+
+      return NextResponse.json(userWithoutPassword, { status: 201 });
+    } catch (error: any) {
+      throw new Error(error?.message || "Erro interno ao buscar usuários.");
+    }
+  }
 }
 
 const accountService = new AccountService();

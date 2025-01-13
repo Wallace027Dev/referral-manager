@@ -2,11 +2,11 @@ import accountController from "@/_controllers/accountController";
 import handleError from "@/_error/handleError";
 import { NextRequest } from "next/server";
 
-export async function POST (req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    return await accountController.login(body);
+    return await accountController.signup(body);
   } catch (error) {
-      return handleError(error);
-    }
+    return handleError(error);
+  }
 }

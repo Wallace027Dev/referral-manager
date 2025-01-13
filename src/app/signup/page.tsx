@@ -38,12 +38,12 @@ export default function Page() {
         {...register("name")}
       />
       <InputField
-        id="pixKey"
+        id="pix_key"
         label="Chave Pix"
         type="text"
         placeholder="Sua chave Pix"
-        error={errors.pixKey?.message}
-        {...register("pixKey")}
+        error={errors.pix_key?.message}
+        {...register("pix_key")}
       />
       <InputField
         id="whatsapp"

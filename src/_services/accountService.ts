@@ -51,9 +51,9 @@ class AccountService {
     }
   }
 
-  async signup({ name, whatsapp, pixKey, password }: Partial<IUser>) {
+  async signup({ name, whatsapp, pix_key, password }: Partial<IUser>) {
     // Validação básica de campos obrigatórios
-    if (!name || !whatsapp || !pixKey || !password) {
+    if (!name || !whatsapp || !pix_key || !password) {
       return NextResponse.json(
         { message: "Todos os campos são obrigatórios." },
         { status: 400 }
@@ -61,16 +61,16 @@ class AccountService {
     }
 
     try {
-      // Verifica se o whatsapp ou pixKey já existe
+      // Verifica se o whatsapp ou pix_key já existe
       const existingUser = await prisma.user.findFirst({
         where: {
-          OR: [{ whatsapp }, { pixKey }]
+          OR: [{ whatsapp }, { pix_key }]
         }
       });
 
       if (existingUser) {
         return NextResponse.json(
-          { message: "Usuário já cadastrado com esse whatsapp ou pixKey." },
+          { message: "Usuário já cadastrado com esse whatsapp ou pix_key." },
           { status: 400 }
         );
       }
@@ -83,7 +83,7 @@ class AccountService {
         data: {
           name,
           whatsapp,
-          pixKey,
+          pix_key,
           password: hashedPassword
         }
       });

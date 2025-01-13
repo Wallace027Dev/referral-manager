@@ -3,7 +3,7 @@ import * as yup from "yup";
 // Definindo o esquema de validação
 const validateSignup = yup.object().shape({
   name: yup.string().required("O nome é obrigatório"),
-  pixKey: yup.string().required("O Pix é obrigatório"),
+  pix_key: yup.string().required("O Pix é obrigatório"),
   whatsapp: yup
     .string()
     .trim()

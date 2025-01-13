@@ -11,15 +11,16 @@ class UsersService {
         select: {
           id: true,
           name: true,
-          pixKey: true,
+          pix_key: true,
           whatsapp: true,
+          clicks: true,
           created_at: true,
           updated_at: true,
           deleted_at: true
         },
         where: {
           whatsapp: queryParams.whatsapp ?? undefined,
-          pixKey: queryParams.pixKey ?? undefined,
+          pix_key: queryParams.pix_key ?? undefined,
           name: queryParams.name ? { contains: queryParams.name } : undefined,
           deleted_at: null // Filtra os usuários que não foram deletados
         }
@@ -41,7 +42,7 @@ class UsersService {
     // Validação básica dos dados
     if (
       !userData.name ||
-      !userData.pixKey ||
+      !userData.pix_key ||
       !userData.whatsapp ||
       !userData.password
     ) {
@@ -58,7 +59,7 @@ class UsersService {
       const newUser = await prisma.user.create({
         data: {
           name: userData.name,
-          pixKey: userData.pixKey,
+          pix_key: userData.pix_key,
           whatsapp: userData.whatsapp,
           password: hashedPassword
         }

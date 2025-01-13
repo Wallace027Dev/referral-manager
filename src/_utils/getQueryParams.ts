@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 export default function getQueryParams(req: NextRequest) {
   return {
     whatsapp: req.nextUrl.searchParams.get("whatsapp") ?? undefined,
-    pixKey: req.nextUrl.searchParams.get("pixKey") ?? undefined,
+    pix_key: req.nextUrl.searchParams.get("pix_key") ?? undefined,
     name: req.nextUrl.searchParams.get("name") ?? undefined
   };
 }

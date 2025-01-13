@@ -11,12 +11,12 @@ export default function validateUserData(userData: Partial<IUser>) {
       "string.max": "O nome pode ter no máximo 100 caracteres.",
       "any.required": "O campo nome é obrigatório."
     }),
-    pixKey: Joi.string().min(10).max(50).required().messages({
-      "string.base": "O campo pixKey deve ser uma string.",
-      "string.empty": "O campo pixKey não pode estar vazio.",
+    pix_key: Joi.string().min(10).max(50).required().messages({
+      "string.base": "O campo pix_key deve ser uma string.",
+      "string.empty": "O campo pix_key não pode estar vazio.",
       "string.min": "A chave Pix deve ter pelo menos 10 caracteres.",
       "string.max": "A chave Pix pode ter no máximo 50 caracteres.",
-      "any.required": "O campo pixKey é obrigatório."
+      "any.required": "O campo pix_key é obrigatório."
     }),
     whatsapp: Joi.string().min(10).max(20).required().messages({
       "string.base": "O campo whatsapp deve ser uma string.",

@@ -17,8 +17,23 @@ model User {
   id         Int       @id @default(autoincrement())
   whatsapp   String    @unique
   name       String
-  pixKey     String
+  pix_key    String
   password   String
+  link_id    String
+  clicks     Click[]
+  
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+}
+
+model Click {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  contact   String
+  clickedAt DateTime @default(now())
+  user       User      @relation(fields: [userId], references: [id])
+
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
   deleted_at DateTime?

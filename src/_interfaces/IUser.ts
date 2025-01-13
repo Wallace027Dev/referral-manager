@@ -1,9 +1,12 @@
+import IClick from "./IClick";
+
 interface IUser {
-  id: string;
+  id: number;
   name: string;
-  pixKey: string;
+  pix_key: string;
   whatsapp: string;
   password: string;
+  clicks: IClick[];
   created_at: Date;
   updated_at: Date;
   deleted_at: Date;

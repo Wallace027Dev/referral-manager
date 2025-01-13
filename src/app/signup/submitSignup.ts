@@ -2,7 +2,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 export type SignupFormData = {
   name: string;
-  pixKey: string;
+  pix_key: string;
   whatsapp: string;
   password: string;
   confirmPassword: string;

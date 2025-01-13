@@ -1,15 +1,12 @@
-import ISignupData from "@/_interfaces/signupData";
 import prisma from "../../prisma/prisma";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
+import IUser from "@/_interfaces/IUser";
+import validateUserData from "@/_validators/validateUserData";
 
 class UsersService {
-  async listAll(queryParams: {
-    whatsapp?: string;
-    pixKey?: string;
-    name?: string;
-  }) {
+  // Função para listar todos os usuários com base nos parâmetros de query
+  async listAll(queryParams: Partial<IUser>) {
     try {
-      // Filtra os usuários de acordo com os parâmetros da query
       const users = await prisma.user.findMany({
         select: {
           id: true,
@@ -18,18 +15,19 @@ class UsersService {
           whatsapp: true,
           created_at: true,
           updated_at: true,
-          deleted_at: true,
+          deleted_at: true
         },
         where: {
-          whatsapp: queryParams.whatsapp ? queryParams.whatsapp : undefined,
-          pixKey: queryParams.pixKey ? queryParams.pixKey : undefined,
-          name: queryParams.name ? { contains: queryParams.name } : undefined
+          whatsapp: queryParams.whatsapp ?? undefined,
+          pixKey: queryParams.pixKey ?? undefined,
+          name: queryParams.name ? { contains: queryParams.name } : undefined,
+          deleted_at: null // Filtra os usuários que não foram deletados
         }
       });
 
-      // Se não houver usuários, lança um erro
+      // Lança erro se não encontrar usuários
       if (!users || users.length === 0) {
-        throw new Error("Não existem usuários");
+        throw new Error("Não existem usuários.");
       }
 
       return users;
@@ -38,7 +36,8 @@ class UsersService {
     }
   }
 
-  async create(userData: ISignupData) {
+  // Função para criar um novo usuário
+  async create(userData: Partial<IUser>) {
     // Validação básica dos dados
     if (
       !userData.name ||
@@ -48,17 +47,20 @@ class UsersService {
     ) {
       throw new Error("Todos os campos são obrigatórios.");
     }
-
     try {
-      // Hashing da senha antes de salvar
-      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      // Validação dos dados do usuário
+      validateUserData(userData);
 
+      // Criptografando a senha antes de salvar
+      const hashedPassword = await bcrypt.hash(userData.password!, 10);
+
+      // Criando o novo usuário
       const newUser = await prisma.user.create({
         data: {
           name: userData.name,
           pixKey: userData.pixKey,
           whatsapp: userData.whatsapp,
-          password: hashedPassword,
+          password: hashedPassword
         }
       });
 

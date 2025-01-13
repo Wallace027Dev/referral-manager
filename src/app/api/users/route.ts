@@ -1,5 +1,6 @@
 import usersController from "@/_controllers/usersController";
 import handleError from "@/_error/handleError";
+import getQueryParams from "@/_utils/getQueryParams";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -22,11 +23,3 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Função para extrair e tratar os query params
-function getQueryParams(req: NextRequest) {
-  return {
-    whatsapp: req.nextUrl.searchParams.get("whatsapp") ?? undefined,
-    pixKey: req.nextUrl.searchParams.get("pixKey") ?? undefined,
-    name: req.nextUrl.searchParams.get("name") ?? undefined
-  };
-}

@@ -1,9 +1,9 @@
 import usersService from "@/_services/usersService";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 class UsersController {
-  async listAll(req: NextRequest) {
-    const users = await usersService.listAll(req);
+  async listAll(queryParams: { whatsapp?: string, pixKey?: string, name?: string  }) {
+    const users = await usersService.listAll(queryParams);
     return NextResponse.json(users);
   }
 }

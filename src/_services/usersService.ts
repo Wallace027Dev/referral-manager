@@ -1,10 +1,20 @@
-import { NextRequest } from "next/server";
 import prisma from "../../prisma/prisma";
 
 class UsersService {
-  async listAll(req: NextRequest) {
+  async listAll(queryParams: {
+    whatsapp?: string;
+    pixKey?: string;
+    name?: string;
+  }) {
     try {
-      const users = await prisma.user.findMany();
+      // Filtra os usuários de acordo com os parâmetros da query
+      const users = await prisma.user.findMany({
+        where: {
+          whatsapp: queryParams.whatsapp ? queryParams.whatsapp : undefined,
+          pixKey: queryParams.pixKey ? queryParams.pixKey : undefined,
+          name: queryParams.name ? { contains: queryParams.name } : undefined
+        }
+      });
 
       // Se não houver usuários, lança um erro
       if (!users || users.length === 0) {
@@ -18,5 +28,5 @@ class UsersService {
   }
 }
 
-const usersService = new UsersService()
+const usersService = new UsersService();
 export default usersService;

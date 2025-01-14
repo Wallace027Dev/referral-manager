@@ -2,6 +2,7 @@ import prisma from "../../prisma/prisma";
 import bcrypt from "bcrypt";
 import IUser from "@/_interfaces/IUser";
 import validateUserData from "@/_validators/validateUserData";
+import generateUserLink from "@/_utils/generateUserLink";
 
 class UsersService {
   // Função para listar todos os usuários com base nos parâmetros de query
@@ -61,7 +62,8 @@ class UsersService {
           name: userData.name,
           pix_key: userData.pix_key,
           whatsapp: userData.whatsapp,
-          password: hashedPassword
+          password: hashedPassword,
+          link_id: generateUserLink(userData.name)
         }
       });
 

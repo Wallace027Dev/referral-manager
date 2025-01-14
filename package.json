@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "ts-node prisma/seed.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -19,6 +20,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "styled-components": "^6.1.14",
+    "uuid": "^11.0.5",
     "yup": "^1.6.1"
   },
   "devDependencies": {

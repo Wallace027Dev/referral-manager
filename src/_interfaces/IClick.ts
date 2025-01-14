@@ -1,8 +1,8 @@
 interface IClick {
   id: number;
-  userId: number;
+  user_id: number;
   contact: string;
-  clickedAt: Date;
+  clicked_at: Date;
   created_at: Date;
   updated_at: Date;
   deleted_at: Date;

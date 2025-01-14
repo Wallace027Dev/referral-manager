@@ -29,10 +29,10 @@ model User {
 
 model Click {
   id        Int      @id @default(autoincrement())
-  userId    Int
+  user_id    Int
   contact   String
-  clickedAt DateTime @default(now())
-  user       User      @relation(fields: [userId], references: [id])
+  clicked_at DateTime @default(now())
+  user       User      @relation(fields: [user_id], references: [id])
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt

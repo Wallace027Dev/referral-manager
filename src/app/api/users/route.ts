@@ -1,11 +1,11 @@
+import { NextRequest } from "next/server";
 import usersController from "@/_controllers/usersController";
 import handleError from "@/_error/handleError";
-import getQueryParams from "@/_utils/getQueryParams";
-import { NextRequest } from "next/server";
+import getUserQueryParams from "@/_utils/getUserQueryParams";
 
 export async function GET(req: NextRequest) {
   try {
-    const queryParams = getQueryParams(req);
+    const queryParams = getUserQueryParams(req);
 
     return await usersController.listAll(queryParams);
   } catch (error) {

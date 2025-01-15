@@ -6,7 +6,7 @@ class ClicksService {
     try {
       const clicks = await prisma.click.findMany({
         where: {
-          userId: userId,
+          user_id: userId,
           contact: queryParams.contact ?? undefined,
           clicked_at: queryParams.clicked_at ?? undefined,
           deleted_at: null

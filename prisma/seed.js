@@ -24,7 +24,7 @@ async function main() {
     for (let j = 0; j < numClicks; j++) {
       await prisma.click.create({
         data: {
-          userId: user.id,
+          user_id: user.id,
           contact: `contato${j + 1}@teste.com`,
           clicked_at: new Date(Date.now() - Math.floor(Math.random() * 10000000000)), // Data aleatória no passado
         },

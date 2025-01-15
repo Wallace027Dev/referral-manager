@@ -9,10 +9,10 @@ class ClicksService {
           userId: userId,
           contact: queryParams.contact ?? undefined,
           clicked_at: queryParams.clicked_at ?? undefined,
-          deleted_at: null // Filtra os usuários que não foram deletados
+          deleted_at: null
         }
       });
-      // Lança erro se não encontrar cliques
+
       if (!clicks || clicks.length === 0) {
         throw new Error("Não existem cliques.");
       }

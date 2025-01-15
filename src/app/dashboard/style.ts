@@ -1,16 +1,10 @@
 import styled from "styled-components";
 
-export const DashboardContainer = styled.div`
+export const DashboardContainer = styled.main`
   padding: 2rem;
   font-family: Arial, sans-serif;
   text-align: center;
   color: #333;
-`;
-
-export const Heading = styled.h2`
-  margin-bottom: 1rem;
-  font-size: 1.8rem;
-  color: #007bff;
 `;
 
 export const NoDataMessage = styled.p`

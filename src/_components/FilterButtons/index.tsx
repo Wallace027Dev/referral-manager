@@ -1,4 +1,5 @@
-import { FilterButtons } from "./style";
+import { useState } from "react";
+import { FilterSelect } from "./style";
 
 interface FilterProps {
   activeFilter: string;
@@ -6,18 +7,29 @@ interface FilterProps {
   onShowTotalClicks: () => void;
 }
 
-const FilterButtonsComponent: React.FC<FilterProps> = ({ activeFilter, onFilterClick, onShowTotalClicks }) => (
-  <FilterButtons>
-    {["3m", "2m", "1m", "0m", "total"].map((filter) => (
-      <button
-        key={filter}
-        onClick={filter === "total" ? onShowTotalClicks : () => onFilterClick(parseInt(filter))}
-        className={activeFilter === filter ? "active" : ""}
+const FilterButtonsComponent: React.FC<FilterProps> = ({
+  activeFilter,
+  onFilterClick,
+  onShowTotalClicks
+}) => {
+  return (
+    <FilterSelect>
+      <select
+        onChange={(e) =>
+          e.target.value === "total"
+            ? onShowTotalClicks()
+            : onFilterClick(parseInt(e.target.value))
+        }
+        value={activeFilter}
       >
-        {filter === "total" ? "Total Histórico" : `${filter.replace('m', '')} meses atrás`}
-      </button>
-    ))}
-  </FilterButtons>
-);
+        <option value="3m">3 meses atrás</option>
+        <option value="2m">2 meses atrás</option>
+        <option value="1m">1 mês atrás</option>
+        <option value="0m">Este mês</option>
+        <option value="total">Total Histórico</option>
+      </select>
+    </FilterSelect>
+  );
+};
 
 export default FilterButtonsComponent;

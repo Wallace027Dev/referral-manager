@@ -8,6 +8,11 @@ class UsersController {
     return NextResponse.json(users);
   }
 
+  async listById(userId: number) {
+    const users = await usersService.listById(userId);
+    return NextResponse.json(users);
+  }
+
   async create(userData: Partial<IUser>) {
     const users = await usersService.create(userData);
     return NextResponse.json(users);

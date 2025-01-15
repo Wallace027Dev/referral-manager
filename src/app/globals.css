@@ -15,8 +15,7 @@ a {
 }
 
 body {
-  display: flex;
-  justify-content: center;
+  text-align: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -60,7 +59,7 @@ button {
 
 /* Estilo de hover */
 button:hover {
-  background-color: #4d90fe;
+  background-color: #0056b3;
 }
 
 /* Adicionando transições suaves */

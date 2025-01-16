@@ -7,6 +7,11 @@ class ClicksController {
     const clicks = await clicksService.listAllByUserId(userId, queryParams);
     return NextResponse.json(clicks);
   }
+
+  async registerClick(userId: number, whatsappNumber: string) {
+    const clicks = await clicksService.registerClick(userId, whatsappNumber);
+    return NextResponse.json(clicks);
+  }
 }
 
 const clicksController = new ClicksController();

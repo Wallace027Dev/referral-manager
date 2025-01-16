@@ -5,6 +5,7 @@ type InputFieldProps = {
   type: string;
   placeholder: string;
   error?: string;
+  isValid?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const InputField = ({
@@ -12,13 +13,16 @@ const InputField = ({
   label,
   type,
   placeholder,
+  isValid = true,
   error,
   ...props
 }: InputFieldProps) => (
   <div>
     <label htmlFor={id}>{label}:</label>
     <input id={id} type={type} placeholder={placeholder} {...props} />
-    {error && <p>{error}</p>}
+    {error && (
+      <p style={{ color: isValid ? "#007bff" : "red" }}>{error}</p>
+    )}
   </div>
 );
 

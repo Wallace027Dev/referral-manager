@@ -3,6 +3,7 @@ import IUser from "@/_interfaces/IUser";
 import prisma from "../../prisma/prisma";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import generateUserLink from "@/_utils/generateUserLink";
 
 class AccountService {
   async login({ whatsapp, password }: Partial<IUser>) {
@@ -45,7 +46,7 @@ class AccountService {
       );
 
       // Retorna o token no corpo da resposta
-      return NextResponse.json({ token });
+      return NextResponse.json({ token, user });
     } catch (error: any) {
       throw new Error(error?.message || "Erro interno ao buscar usuários.");
     }
@@ -78,12 +79,15 @@ class AccountService {
       // Criptografa a senha antes de armazenar
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      const linkId = await generateUserLink(name);
+
       // Cria o novo usuário no banco de dados
       const newUser = await prisma.user.create({
         data: {
           name,
           whatsapp,
           pix_key,
+          link_id: linkId,
           password: hashedPassword
         }
       });

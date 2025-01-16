@@ -8,6 +8,7 @@ const Form = styled.form`
   div {
     display: flex;
     flex-direction: column;
+    align-items: start;
   }
 
   p {
@@ -22,6 +23,10 @@ const Form = styled.form`
   button {
     width: 100%;
     min-width: 280px;
+  }
+
+  input {
+    text-align: start;
   }
 
   button {

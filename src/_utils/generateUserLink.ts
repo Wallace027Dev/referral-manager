@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 // Função para criar o link personalizado
-function generateUserLink(userName?: string): string {
+async function generateUserLink(userName?: string): Promise<string> {
   // Gera o identificador único (usando o nome ou um UUID)
   const uniqueId = userName
     ? userName.toLowerCase().replace(/[^a-z0-9]+/g, "-")

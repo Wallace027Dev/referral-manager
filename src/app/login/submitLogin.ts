@@ -18,16 +18,20 @@ async function submitLogin(
     const response = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
-
+  
+    const responseData = await response.json(); // Parse the response body once
+    console.log(responseData)
+  
     if (response.ok) {
-      router.push("/dashboard");
+      const { user } = responseData;
+      router.push(`/dashboard/${user.id}`);
     } else {
-      const { message } = await response.json();
+      const { message } = responseData;
       setMessage(message || "Erro ao realizar login.");
     }
-  } catch {
+  } catch (error) {
     setMessage("Erro ao realizar login. Tente novamente.");
   } finally {
     setLoading(false);

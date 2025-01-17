@@ -6,7 +6,10 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     return await accountController.login(body);
-  } catch (error) {
-    return handleError(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return handleError("INTERNAL_SERVER_ERROR", error.message);
+    }
+    return handleError("INTERNAL_SERVER_ERROR");
   }
 }

@@ -36,7 +36,7 @@ class AccountService {
       );
 
       // Retorna o token no corpo da resposta
-      return NextResponse.json({ token, user });
+      return { token, user };
     } catch (error: any) {
       throw new Error(error?.message || "Erro interno ao fazer login.");
     }

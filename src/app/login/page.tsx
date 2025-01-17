@@ -1,13 +1,14 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Form from "@/_styles/AccountForm";
 import validateLogin from "@/_validators/validateLogin";
+import LoginFormData from "@/_types/LoginFormData";
 import InputField from "@/_components/InputField";
-import submitLogin, { LoginFormData } from "./submitLogin";
+import submitLogin from "./submitLogin";
 
 export default function LoginPage() {
   const {
@@ -23,10 +24,13 @@ export default function LoginPage() {
 
   const router = useRouter();
 
+  const onSubmit = async (data: LoginFormData) => {
+    setMessage(null);
+    await submitLogin(data, setLoading, setMessage, router);
+  };
+
   return (
-    <Form onSubmit={handleSubmit((data) =>
-      submitLogin(data, setLoading, setMessage, router)
-    )}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <InputField
         id="input-whatsapp"
         label="WhatsApp"

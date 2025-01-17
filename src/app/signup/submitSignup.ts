@@ -16,7 +16,7 @@ async function submitSignup(
 ) {
   try {
     setLoading(true);
-    const response = await fetch("/api/signup", {
+    const response = await fetch("/api/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

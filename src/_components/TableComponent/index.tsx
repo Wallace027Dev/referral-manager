@@ -12,19 +12,18 @@ interface TableProps {
 const TableComponent: React.FC<TableProps> = ({ isAdmin, data, currentForm }) => {
   const isClickData = data.length > 0 && "clicked_at" in data[0];
 
-  const groupedData = isAdmin
-    ? isClickData
+  // Função para agrupar os dados de clique por usuário (se for admin)
+  const groupDataByUser = (data: IClick[] | IUser[]) => {
+    return isAdmin && isClickData
       ? (data as IClick[]).reduce((acc, item) => {
-          if (!acc[item.user_id]) {
-            acc[item.user_id] = [];
-          }
-          acc[item.user_id].push(item);
+          const userId = item.user_id;
+          acc[userId] = acc[userId] ? [...acc[userId], item] : [item];
           return acc;
         }, {} as Record<string, IClick[]>)
-      : (data as IUser[])
-    : null;
+      : data;
+  };
 
-  // Renderização de cliques
+  // Renderização de cliques (quando admin)
   const renderClicks = (groupedClicks: Record<string, IClick[]>) => {
     return Object.keys(groupedClicks).map((userId) => {
       const userClicks = groupedClicks[userId];
@@ -57,9 +56,8 @@ const TableComponent: React.FC<TableProps> = ({ isAdmin, data, currentForm }) =>
     });
   };
 
-  // Renderização de usuários
+  // Renderização de usuários (quando admin)
   const renderUsers = (users: IUser[]) => {
-    console.log(data)
     return users.map((user) => (
       <tr key={user.id}>
         <td>{user.name}</td>
@@ -69,6 +67,30 @@ const TableComponent: React.FC<TableProps> = ({ isAdmin, data, currentForm }) =>
       </tr>
     ));
   };
+
+  // Função para renderizar as linhas de dados
+  const renderTableRows = (item: IClick | IUser) => {
+    if (currentForm === "clicks") {
+      return (
+        <tr key={item.id}>
+          <td>{(item as IClick).contact}</td>
+          <td>{new Date((item as IClick).clicked_at).toLocaleDateString("pt-BR")}</td>
+        </tr>
+      );
+    } else {
+      return (
+        <tr key={item.id}>
+          <td>{(item as IUser).name}</td>
+          <td>{(item as IUser).whatsapp}</td>
+          <td>{(item as IUser).pix_key}</td>
+          <td>{(item as IUser).clicks.length}</td>
+        </tr>
+      );
+    }
+  };
+
+  // Agrupar os dados conforme o tipo
+  const groupedData = groupDataByUser(data);
 
   return (
     <Table>
@@ -94,28 +116,10 @@ const TableComponent: React.FC<TableProps> = ({ isAdmin, data, currentForm }) =>
           ? isClickData
             ? renderClicks(groupedData as Record<string, IClick[]>)
             : renderUsers(groupedData as IUser[])
-            : data.map((item: any) =>
-          
-              currentForm === "clicks" ? (
-                <tr key={item.id}>
-                  <td>{item.contact}</td>
-                  <td>
-                    {new Date(item.clicked_at).toLocaleDateString("pt-BR")}
-                  </td>
-                </tr>
-              ) : (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.whatsapp}</td>
-                  <td>{item.pix_key}</td>
-                  <td>{item.clicks.length}</td>
-                </tr>
-              )
-            )}
+          : data.map((item: any) => renderTableRows(item))}
       </TableBody>
     </Table>
   );
 };
-
 
 export default TableComponent;

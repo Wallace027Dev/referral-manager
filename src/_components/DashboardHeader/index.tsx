@@ -1,16 +1,15 @@
-import { useState } from "react";
-import { CopyButton, Header, Heading, FormOptionButton } from "./style";
-import IDashboardHeaderProps from "@/_interfaces/IDashboardHeaderProps";
+import { useState, useCallback } from "react";
 
-export default function DashboardHeader({
-  isAdmin,
-  userId,
-  currentForm,
-  handleCurrentForm
-}: IDashboardHeaderProps) {
+import IDashboardHeaderProps from "@/_interfaces/IDashboardHeaderProps";
+import {  Header } from "./style";
+import CopyLinkButton from "../CopyLinkButton";
+import HeaderContent from "../HeaderContent";
+import FormOptionButtons from "../FormOptionButton";
+
+const DashboardHeader: React.FC<IDashboardHeaderProps> = ({ isAdmin, userId, currentForm, handleCurrentForm }) => {
   const [copied, setCopied] = useState(false);
-  
-  function handleCopyLink() {
+
+  const handleCopyLink = useCallback(() => {
     const userLink = `${window.location.origin}/indications?userId=${userId}`;
     navigator.clipboard
       .writeText(userLink)
@@ -18,37 +17,19 @@ export default function DashboardHeader({
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       })
-      .catch(() => {
-        alert("Erro ao copiar o link.");
-      });
-  }
+      .catch(() => alert("Erro ao copiar o link."));
+  }, [userId]);
 
   return (
     <Header>
-      <div>
-        <p>Logo</p>
-        <Heading>{isAdmin ? "Bem-vinda Mava" : "Minhas indicações"}</Heading>
-      </div>
+      <HeaderContent isAdmin={isAdmin} />
       {!isAdmin ? (
-        <CopyButton onClick={handleCopyLink} copied={copied}>
-          {copied ? "Link Copiado!" : "Copiar Link"}
-        </CopyButton>
+        <CopyLinkButton userId={userId} copied={copied} onCopy={handleCopyLink} />
       ) : (
-        <FormOptionButton>
-          <button
-            onClick={handleCurrentForm}
-            className={currentForm === "clicks" ? "active" : ""}
-          >
-            Indicações
-          </button>
-          <button
-            onClick={handleCurrentForm}
-            className={currentForm === "users" ? "active" : ""}
-          >
-            Usuários
-          </button>
-        </FormOptionButton>
+        <FormOptionButtons currentForm={currentForm} handleCurrentForm={handleCurrentForm} />
       )}
     </Header>
   );
-}
+};
+
+export default DashboardHeader;

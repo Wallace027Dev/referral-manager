@@ -1,113 +1,87 @@
 "use client";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import IClick from "@/_interfaces/IClick";
+import IUser from "@/_interfaces/IUser";
 import getStartAndEndDate from "@/_utils/getStartAndEndDate";
 import TableComponent from "@/_components/TableComponent";
 import FilterButtons from "@/_components/FilterButtons";
 import DashboardHeader from "@/_components/DashboardHeader";
 
 import { DashboardContainer, NoDataMessage } from "./style";
-import IUser from "@/_interfaces/IUser";
 
 export default function Home() {
   const [clicks, setClicks] = useState<IClick[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [filteredClicks, setFilteredClicks] = useState<IClick[]>([]);
-  const [activeFilter, setActiveFilter] = useState<string>("total");
-  const [admin, setAdmin] = useState(false);
-  const [currentForm, setCurrentForm] = useState("clicks");
+  const [activeFilter, setActiveFilter] = useState("total");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [currentForm, setCurrentForm] = useState<"clicks" | "users">("clicks");
 
   const { id } = useParams<{ id: string }>();
 
-  function handleCurrentForm() {
-    setCurrentForm((prevForm) => (prevForm === "clicks" ? "users" : "clicks"));
-  }
+  const fetchData = useCallback(async () => {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const endpoint =
+        isAdmin && currentForm === "users"
+          ? "/api/users"
+          : `/api/${currentForm}/${isAdmin ? "" : id}`;
+      const response = await fetch(`${baseUrl}${endpoint}`);
+      if (!response.ok) throw new Error("Erro ao buscar dados");
+
+      const data = await response.json();
+      currentForm === "clicks" ? setClicks(data) : setUsers(data);
+      setFilteredClicks(currentForm === "clicks" ? data : []);
+    } catch (error) {
+      console.error("Erro ao buscar dados:", error);
+    }
+  }, [isAdmin, currentForm, id]);
 
   useEffect(() => {
-    if (id == "admin") {
-      console.log(id);
-      setAdmin(true);
-    } else {
-      setAdmin(false);
-    }
-  }, [id, admin]);
+    setIsAdmin(id === "admin");
+  }, [id]);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-        let response;
-
-        if (admin) {
-          if (currentForm === "clicks") {
-            response = await fetch(`${baseUrl}/api/clicks`);
-            const fetchedData = await response.json();
-            setClicks(fetchedData);
-          } else if (currentForm === "users") {
-            response = await fetch(`${baseUrl}/api/users`);
-            const fetchedData = await response.json();
-            console.log(fetchedData)
-            setUsers(fetchedData);
-          }
-        } else {
-          response = await fetch(`${baseUrl}/api/clicks/${id}`);
-          const fetchedData = await response.json();
-          setClicks(fetchedData);
-        }
-
-        if (response && !response.ok) {
-          throw new Error("Erro ao buscar dados");
-        }
-
-        if (currentForm === "clicks") {
-          setFilteredClicks(clicks as IClick[]);
-        } else {
-          setFilteredClicks([]);
-        }
-      } catch (error) {
-        console.log(admin);
-        console.error("Erro ao buscar dados:", error);
-      }
-    }
-
     fetchData();
-  }, [admin, id, currentForm]);
+  }, [fetchData]);
 
-  const clicksData = filteredClicks.length > 0 ? filteredClicks : clicks;
+  const filterClicksByDate = useCallback(
+    (monthsAgo: number) => {
+      if (currentForm !== "clicks") return;
 
-  function filterClicksByDate(monthsAgo: number) {
-    if (currentForm !== "clicks") return;
+      const { startDate, endDate } = getStartAndEndDate(monthsAgo);
+      const filteredData = clicks.filter((click) => {
+        const clickDate = new Date(click.clicked_at);
+        return clickDate >= startDate && clickDate <= endDate;
+      });
 
-    const { startDate, endDate } = getStartAndEndDate(monthsAgo);
+      setFilteredClicks(filteredData);
+      setActiveFilter(`${monthsAgo}m`);
+    },
+    [clicks, currentForm]
+  );
 
-    const filteredData = (clicks as IClick[]).filter((click) => {
-      const clickDate = new Date(click.clicked_at);
-      return clickDate >= startDate && clickDate <= endDate;
-    });
-
-    setFilteredClicks(filteredData);
-    setActiveFilter(`${monthsAgo}m`);
-  }
-
-  function showTotalClicks() {
-    if (currentForm === "clicks") {
-      setFilteredClicks(clicks as IClick[]);
-    }
+  const showTotalClicks = useCallback(() => {
+    if (currentForm === "clicks") setFilteredClicks(clicks);
     setActiveFilter("total");
-  }
+  }, [clicks, currentForm]);
+
+  const handleCurrentFormToggle = useCallback(() => {
+    setCurrentForm((prevForm) => (prevForm === "clicks" ? "users" : "clicks"));
+  }, []);
 
   return (
     <>
       <DashboardHeader
         currentForm={currentForm}
-        handleCurrentForm={handleCurrentForm}
-        isAdmin={admin}
+        handleCurrentForm={handleCurrentFormToggle}
+        isAdmin={isAdmin}
         userId={id}
       />
       <DashboardContainer>
-        {clicks.length > 0 ? (
+        {(currentForm === "clicks" ? clicks : users).length > 0 ? (
           <>
             {currentForm === "clicks" && (
               <FilterButtons
@@ -117,8 +91,8 @@ export default function Home() {
               />
             )}
             <TableComponent
-              isAdmin={admin}
-              data={currentForm === "clicks" ? clicksData : users}
+              isAdmin={isAdmin}
+              data={currentForm === "clicks" ? filteredClicks : users}
               currentForm={currentForm}
             />
           </>

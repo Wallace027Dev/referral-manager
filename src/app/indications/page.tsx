@@ -1,76 +1,34 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { Button, Header, Main, Message } from "./style";
+import { Button, Header, Main } from "./style";
+import AccountForm from "../../_styles/AccountForm";
 import InputField from "@/_components/InputField";
+import { useClickRegistration } from "./useClickRegistration";
 
 export default function DashboardHeader() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isValid, setIsValid] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const {
+    isValid,
+    errorMessage,
+    registerClick
+  } = useClickRegistration(userId, phoneNumber);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsValid(true);
-
-    if (!userId) {
-      setErrorMessage("ID do usuário não encontrado.");
-      setIsValid(false);
-      return;
-    }
-
-    try {
-      const data = {
-        user_id: userId,
-        contact: phoneNumber
-      };
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/clicks`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        }
-      );
-
-      const responseData = await response.json();
-
-      if (response.ok) {
-        if (responseData.message === "Clique registrado com sucesso.") {
-          setErrorMessage("Seu link foi registrado com sucesso!");
-          setIsValid(true);
-        } else if (
-          responseData.message ===
-          "O número já está registrado para este usuário."
-        ) {
-          setErrorMessage("O número já foi registrado anteriormente.");
-          setIsValid(false);
-        } else {
-          setErrorMessage("Operação realizada, mas resposta inesperada.");
-          setIsValid(false);
-        }
-      } else {
-        setErrorMessage("Houve um erro ao registrar o link.");
-        setIsValid(false);
-      }
-    } catch (error) {
-      setErrorMessage("Erro de rede, tente novamente mais tarde.");
-      setIsValid(false);
-    }
-  }
-
+    registerClick();
+  };
+  
   return (
     <>
       <Header>
         <h1>Bem-vindo à Mava</h1>
       </Header>
       <Main>
-        <form onSubmit={handleSubmit}>
+        <AccountForm onSubmit={handleSubmit}>
           <InputField
             id="whatsapp"
             label="Seu whatsapp"
@@ -82,7 +40,7 @@ export default function DashboardHeader() {
             isValid={isValid}
           />
           <Button type="submit">Enviar</Button>
-        </form>
+        </AccountForm>
       </Main>
     </>
   );

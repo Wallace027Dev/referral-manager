@@ -48,8 +48,21 @@ class ClicksService {
         }
       });
 
+      // Se o clique já existe, atualiza o campo `updated_at`
       if (existingClick) {
-        throw new Error("USER_ALREADY_REGISTERED");
+        const updatedClick = await prisma.click.update({
+          where: {
+            id: existingClick.id,
+          },
+          data: {
+            updated_at: new Date(),
+          },
+        });
+  
+        return {
+          message: "Clique atualizado com sucesso.",
+          data: updatedClick,
+        };
       }
 
       // Cria um novo clique caso não exista

@@ -1,10 +1,50 @@
 import styled from "styled-components";
 
+export const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+`;
+
 export const Heading = styled.h1`
   padding: 1rem;
-  margin-bottom: 1rem;
   font-size: 1.8rem;
   color: #007bff;
+`;
+
+export const Nav = styled.nav`
+  a {
+    color: #007bff;
+    font-weight: 700;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #007bff;
+      transition: width 0.3s ease, transform 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    &:hover::after,
+    &.active::after {
+      width: 100%;
+    }
+  }
+
+  a + a {
+    margin-left: 1rem;
+  }
 `;
 
 export const CopyButton = styled.button<{ copied: boolean }>`

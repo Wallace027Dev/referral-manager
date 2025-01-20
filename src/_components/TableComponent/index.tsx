@@ -29,32 +29,37 @@ const TableComponent: React.FC<TableProps> = ({ isAdmin, clicks }) => {
       </TableHeader>
       <TableBody>
         {isAdmin && groupedClicks
-          ? Object.keys(groupedClicks).map((userId) => (
-              <React.Fragment key={userId}>
-                <tr>
-                  <td
-                    colSpan={2}
-                    style={{
-                      color: "#f9f9f9",
-                      fontWeight: "bold",
-                      textAlign: "left",
-                      backgroundColor: "#4d90fe",
-                      paddingLeft: "15px"
-                    }}
-                  >
-                    {`Usuário ID: ${userId}`}
-                  </td>
-                </tr>
-                {groupedClicks[userId].map((click) => (
-                  <tr key={click.id}>
-                    <td>{click.contact}</td>
-                    <td>
-                      {new Date(click.clicked_at).toLocaleDateString("pt-BR")}
+          ? Object.keys(groupedClicks).map((userId) => {
+              const userClicks = groupedClicks[userId];
+              const totalClicks = userClicks.length;
+
+              return (
+                <React.Fragment key={userId}>
+                  <tr>
+                    <td
+                      colSpan={2}
+                      style={{
+                        color: "#f9f9f9",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        backgroundColor: "#4d90fe",
+                        paddingLeft: "15px"
+                      }}
+                    >
+                      {`Usuário ID: ${userId} - Total de Cliques: ${totalClicks}`}
                     </td>
                   </tr>
-                ))}
-              </React.Fragment>
-            ))
+                  {groupedClicks[userId].map((click) => (
+                    <tr key={click.id}>
+                      <td>{click.contact}</td>
+                      <td>
+                        {new Date(click.clicked_at).toLocaleDateString("pt-BR")}
+                      </td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              );
+            })
           : clicks.map((click) => (
               <tr key={click.id}>
                 <td>{click.contact}</td>

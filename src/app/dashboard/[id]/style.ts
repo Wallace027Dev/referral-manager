@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const DashboardContainer = styled.main`
-  padding: 2rem;
   font-family: Arial, sans-serif;
   text-align: center;
   color: #333;

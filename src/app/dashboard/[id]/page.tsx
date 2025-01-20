@@ -32,7 +32,7 @@ export default function Home() {
 
         if (admin) {
           response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/clicks` // Exemplo de URL que pode estar com problema
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/clicks`
           );
         } else {
           response = await fetch(
@@ -80,7 +80,7 @@ export default function Home() {
 
   return (
     <>
-      {admin ? <header>Olá admin</header> : <DashboardHeader userId={id} />}
+      <DashboardHeader isAdmin={admin} userId={id} />
       <DashboardContainer>
         {clicks.length > 0 ? (
           <>

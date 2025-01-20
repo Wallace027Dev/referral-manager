@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { CopyButton, Heading } from "./style";
+import { CopyButton, Header, Heading, Nav } from "./style";
 import IDashboardHeaderProps from "@/_interfaces/IDashboardHeaderProps";
+import { usePathname } from "next/navigation";
 
-export default function DashboardHeader({ userId }: IDashboardHeaderProps) {
+export default function DashboardHeader({
+  isAdmin,
+  userId
+}: IDashboardHeaderProps) {
+  const pathname = usePathname ();
   const [copied, setCopied] = useState(false);
 
   function handleCopyLink() {
@@ -19,11 +24,28 @@ export default function DashboardHeader({ userId }: IDashboardHeaderProps) {
   }
 
   return (
-    <header>
-      <Heading>Minhas indicações</Heading>
-      <CopyButton onClick={handleCopyLink} copied={copied}>
-        {copied ? "Link Copiado!" : "Copiar Link"}
-      </CopyButton>
-    </header>
+    <Header>
+      <div>
+        <p>Logo</p>
+        <Heading>{isAdmin ? "Bem-vinda Mava" : "Minhas indicações"}</Heading>
+      </div>
+      {!isAdmin ? (
+        <CopyButton onClick={handleCopyLink} copied={copied}>
+          {copied ? "Link Copiado!" : "Copiar Link"}
+        </CopyButton>
+      ) : (
+        <Nav>
+          <a
+            href="/dashboard/admin"
+            className={pathname === "/dashboard/admin" ? "active" : ""}
+          >
+            Indicações
+          </a>
+          <a href="/users" className={pathname === "/users" ? "active" : ""}>
+            Usuários
+          </a>
+        </Nav>
+      )}
+    </Header>
   );
 }

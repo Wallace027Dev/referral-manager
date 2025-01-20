@@ -11,6 +11,10 @@ const errorMessages = {
     message: "Usuário já cadastrado com esse whatsapp ou pix_key.",
     status: 409
   },
+  NO_CLICKS_REGISTERED: {
+    message: "O usuário ainda não tem registros de cliques.",
+    status: 404
+  },
   INTERNAL_SERVER_ERROR: {
     message: "Erro interno no servidor.",
     status: 500

@@ -1,9 +1,20 @@
 import IClick from "@/_interfaces/IClick";
 import prisma from "../../prisma/prisma";
+import errorMessages from "@/_error/errorMessages";
 
 class ClicksService {
   async listAllByUserId(userId: number, queryParams: Partial<IClick>) {
     try {
+      // Verifica se o usuário existe
+      const userExists = await prisma.user.findUnique({
+        where: { id: userId }
+      });
+
+      if (!userExists) {
+        throw new Error("USER_NOT_FOUND");
+      }
+
+      // Busca os cliques do usuário
       const clicks = await prisma.click.findMany({
         where: {
           user_id: userId,
@@ -13,13 +24,17 @@ class ClicksService {
         }
       });
 
+      // Verifica se há cliques registrados
       if (!clicks || clicks.length === 0) {
-        throw new Error("Não existem cliques.");
+        throw new Error("NO_CLICKS_REGISTERED");
       }
 
       return clicks;
-    } catch (error: any) {
-      throw new Error(error?.message || "Erro interno ao buscar cliques.");
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message in errorMessages) {
+        throw new Error(error.message);
+      }
+      throw new Error("INTERNAL_SERVER_ERROR");
     }
   }
 
@@ -34,10 +49,7 @@ class ClicksService {
       });
 
       if (existingClick) {
-        return {
-          message: "O número já está registrado para este usuário.",
-          data: existingClick
-        };
+        throw new Error("USER_ALREADY_REGISTERED");
       }
 
       // Cria um novo clique caso não exista
@@ -53,9 +65,10 @@ class ClicksService {
         data: newClick
       };
     } catch (error: any) {
-      throw new Error(
-        error?.message || "Erro interno ao criar um novo clique."
-      );
+      if (error instanceof Error && error.message in errorMessages) {
+        throw new Error(error.message);
+      }
+      throw new Error("INTERNAL_SERVER_ERROR");
     }
   }
 }

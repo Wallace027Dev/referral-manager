@@ -1,16 +1,32 @@
+import errorMessages from "@/_error/errorMessages";
+import handleError from "@/_error/handleError";
 import IClick from "@/_interfaces/IClick";
 import clicksService from "@/_services/clicksService";
 import { NextResponse } from "next/server";
 
 class ClicksController {
   async listAllByUserId(userId: number, queryParams: Partial<IClick>) {
-    const clicks = await clicksService.listAllByUserId(userId, queryParams);
-    return NextResponse.json(clicks);
+    try {
+      const clicks = await clicksService.listAllByUserId(userId, queryParams);
+      return NextResponse.json({ message: "Sucesso", data: clicks });
+    } catch (error: any) {
+      if (error instanceof Error && error.message in errorMessages) {
+        return handleError(error.message as keyof typeof errorMessages);
+      }
+      return handleError("INTERNAL_SERVER_ERROR");
+    }
   }
 
   async registerClick(userId: number, whatsappNumber: string) {
-    const clicks = await clicksService.registerClick(userId, whatsappNumber);
-    return NextResponse.json(clicks);
+    try {
+      const clicks = await clicksService.registerClick(userId, whatsappNumber);
+      return NextResponse.json({ message: "Sucesso", data: clicks });
+    } catch (error: any) {
+      if (error instanceof Error && error.message in errorMessages) {
+        return handleError(error.message as keyof typeof errorMessages);
+      }
+      return handleError("INTERNAL_SERVER_ERROR");
+    }
   }
 }
 

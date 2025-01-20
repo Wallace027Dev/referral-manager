@@ -6,11 +6,14 @@ import { validateWhatsappNumber } from "@/_validators/validateWhatsappNumber";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const id = Number(body.user_id)
+    const id = Number(body.user_id);
     const whatsappNumber = validateWhatsappNumber(body.contact);
 
     return await clicksController.registerClick(id, whatsappNumber);
-  } catch (error) {
-    return handleError(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return handleError("INTERNAL_SERVER_ERROR", error.message);
+    }
+    return handleError("INTERNAL_SERVER_ERROR");
   }
 }

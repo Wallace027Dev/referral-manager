@@ -35,7 +35,6 @@ async function submitSignup(
           "Falha no cadastro: O WhatsApp informado já está registrado."
         );
       } else {
-        // Tratamento genérico para outros erros
         const errorMessage =
           result?.message ||
           `Erro desconhecido. Código HTTP: ${response.status}`;

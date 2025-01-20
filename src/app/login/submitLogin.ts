@@ -22,10 +22,22 @@ async function submitLogin(
     });
 
     const responseData = await response.json();
-    console.log(responseData); // Veja o que foi retornado
-
     if (response.ok) {
-      router.push(`/dashboard/${responseData.user.id}`);
+      const defaultWhatsappNumber =
+        process.env.NEXT_PUBLIC_DEFAULT_WHATSAPP_NUMBER;
+
+      if (!defaultWhatsappNumber) {
+        setMessage("Número de WhatsApp não configurado corretamente.");
+        setLoading(false);
+        return;
+      }
+
+      if (responseData.user.whatsapp === defaultWhatsappNumber) {
+        console.log("igual")
+        router.push("/dashboard/admin");
+      } else {
+        router.push(`/dashboard/${responseData.user.id}`);
+      }
     } else {
       const { message } = await response.json();
       setMessage(message || "Erro ao realizar login.");

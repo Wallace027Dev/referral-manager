@@ -8,8 +8,11 @@ export async function GET(req: NextRequest) {
     const queryParams = getUserQueryParams(req);
 
     return await usersController.listAll(queryParams);
-  } catch (error) {
-    return handleError(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return handleError("INTERNAL_SERVER_ERROR", error.message);
+    }
+    return handleError("INTERNAL_SERVER_ERROR");
   }
 }
 
@@ -18,8 +21,10 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     return await usersController.create(body);
-  } catch (error) {
-    return handleError(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return handleError("INTERNAL_SERVER_ERROR", error.message);
+    }
+    return handleError("INTERNAL_SERVER_ERROR");
   }
 }
-

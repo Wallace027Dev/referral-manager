@@ -42,7 +42,7 @@ class UsersService {
   // Buscar usuário pelo ID
   async listById(userId: number) {
     try {
-      const user = await prisma.user.findMany({
+      const user = await prisma.user.findUnique({
         select: {
           id: true,
           name: true,
@@ -61,7 +61,7 @@ class UsersService {
       });
 
       // Lança erro se não encontrar o usuário
-      if (!user || user.length === 0) {
+      if (!user) {
         throw new Error("Não existe nenhum usuário com esse ID.");
       }
 
@@ -96,7 +96,7 @@ class UsersService {
           pix_key: userData.pix_key,
           whatsapp: userData.whatsapp,
           password: hashedPassword,
-          link_id: generateUserLink(userData.name)
+          link_id: await generateUserLink(userData.name)
         }
       });
 

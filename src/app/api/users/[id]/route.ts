@@ -8,7 +8,10 @@ export async function GET(req: NextRequest) {
     const id = getAndValidateID(req);
 
     return await usersController.listById(id);
-  } catch (error) {
-    return handleError(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return handleError("INTERNAL_SERVER_ERROR", error.message);
+    }
+    return handleError("INTERNAL_SERVER_ERROR");
   }
 }

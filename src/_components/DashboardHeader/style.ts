@@ -18,8 +18,13 @@ export const Heading = styled.h1`
   color: #007bff;
 `;
 
-export const Nav = styled.nav`
-  a {
+export const FormOptionButton = styled.div`
+  button {
+    background: none;
+    padding: 0;
+  }
+
+  button {
     color: #007bff;
     font-weight: 700;
     position: relative;
@@ -42,7 +47,7 @@ export const Nav = styled.nav`
     }
   }
 
-  a + a {
+  button + button {
     margin-left: 1rem;
   }
 `;

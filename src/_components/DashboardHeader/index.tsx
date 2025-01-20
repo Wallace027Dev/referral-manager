@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { CopyButton, Header, Heading, Nav } from "./style";
+import { CopyButton, Header, Heading, FormOptionButton } from "./style";
 import IDashboardHeaderProps from "@/_interfaces/IDashboardHeaderProps";
-import { usePathname } from "next/navigation";
 
 export default function DashboardHeader({
   isAdmin,
-  userId
+  userId,
+  currentForm,
+  handleCurrentForm
 }: IDashboardHeaderProps) {
-  const pathname = usePathname ();
   const [copied, setCopied] = useState(false);
-
+  
   function handleCopyLink() {
     const userLink = `${window.location.origin}/indications?userId=${userId}`;
     navigator.clipboard
@@ -34,17 +34,20 @@ export default function DashboardHeader({
           {copied ? "Link Copiado!" : "Copiar Link"}
         </CopyButton>
       ) : (
-        <Nav>
-          <a
-            href="/dashboard/admin"
-            className={pathname === "/dashboard/admin" ? "active" : ""}
+        <FormOptionButton>
+          <button
+            onClick={handleCurrentForm}
+            className={currentForm === "clicks" ? "active" : ""}
           >
             Indicações
-          </a>
-          <a href="/users" className={pathname === "/users" ? "active" : ""}>
+          </button>
+          <button
+            onClick={handleCurrentForm}
+            className={currentForm === "users" ? "active" : ""}
+          >
             Usuários
-          </a>
-        </Nav>
+          </button>
+        </FormOptionButton>
       )}
     </Header>
   );

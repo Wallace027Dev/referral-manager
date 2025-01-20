@@ -9,62 +9,80 @@ import FilterButtons from "@/_components/FilterButtons";
 import DashboardHeader from "@/_components/DashboardHeader";
 
 import { DashboardContainer, NoDataMessage } from "./style";
+import IUser from "@/_interfaces/IUser";
 
 export default function Home() {
   const [clicks, setClicks] = useState<IClick[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
   const [filteredClicks, setFilteredClicks] = useState<IClick[]>([]);
   const [activeFilter, setActiveFilter] = useState<string>("total");
   const [admin, setAdmin] = useState(false);
+  const [currentForm, setCurrentForm] = useState("clicks");
 
   const { id } = useParams<{ id: string }>();
+
+  function handleCurrentForm() {
+    setCurrentForm((prevForm) => (prevForm === "clicks" ? "users" : "clicks"));
+  }
+
   useEffect(() => {
-    if (id === "admin") {
+    if (id == "admin") {
+      console.log(id);
       setAdmin(true);
     } else {
       setAdmin(false);
     }
-  }, [id]);
+  }, [id, admin]);
 
   useEffect(() => {
-    async function getClicks() {
+    async function fetchData() {
       try {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         let response;
 
         if (admin) {
-          response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/clicks`
-          );
+          if (currentForm === "clicks") {
+            response = await fetch(`${baseUrl}/api/clicks`);
+            const fetchedData = await response.json();
+            setClicks(fetchedData);
+          } else if (currentForm === "users") {
+            response = await fetch(`${baseUrl}/api/users`);
+            const fetchedData = await response.json();
+            console.log(fetchedData)
+            setUsers(fetchedData);
+          }
         } else {
-          response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/clicks/${id}`
-          );
+          response = await fetch(`${baseUrl}/api/clicks/${id}`);
+          const fetchedData = await response.json();
+          setClicks(fetchedData);
         }
 
-        if (response.status === 404) {
-          setClicks([]);
+        if (response && !response.ok) {
+          throw new Error("Erro ao buscar dados");
+        }
+
+        if (currentForm === "clicks") {
+          setFilteredClicks(clicks as IClick[]);
+        } else {
           setFilteredClicks([]);
-          return;
         }
-
-        if (!response.ok) {
-          throw new Error("Erro ao buscar cliques");
-        }
-
-        const data = await response.json();
-        setClicks(data);
-        setFilteredClicks(data);
       } catch (error) {
-        console.error("Erro ao buscar cliques:", error);
+        console.log(admin);
+        console.error("Erro ao buscar dados:", error);
       }
     }
 
-    getClicks();
-  }, [admin, id]);
+    fetchData();
+  }, [admin, id, currentForm]);
+
+  const clicksData = filteredClicks.length > 0 ? filteredClicks : clicks;
 
   function filterClicksByDate(monthsAgo: number) {
+    if (currentForm !== "clicks") return;
+
     const { startDate, endDate } = getStartAndEndDate(monthsAgo);
 
-    const filteredData = clicks.filter((click) => {
+    const filteredData = (clicks as IClick[]).filter((click) => {
       const clickDate = new Date(click.clicked_at);
       return clickDate >= startDate && clickDate <= endDate;
     });
@@ -74,25 +92,42 @@ export default function Home() {
   }
 
   function showTotalClicks() {
-    setFilteredClicks(clicks);
+    if (currentForm === "clicks") {
+      setFilteredClicks(clicks as IClick[]);
+    }
     setActiveFilter("total");
   }
 
   return (
     <>
-      <DashboardHeader isAdmin={admin} userId={id} />
+      <DashboardHeader
+        currentForm={currentForm}
+        handleCurrentForm={handleCurrentForm}
+        isAdmin={admin}
+        userId={id}
+      />
       <DashboardContainer>
         {clicks.length > 0 ? (
           <>
-            <FilterButtons
-              activeFilter={activeFilter}
-              onFilterClick={filterClicksByDate}
-              onShowTotalClicks={showTotalClicks}
+            {currentForm === "clicks" && (
+              <FilterButtons
+                activeFilter={activeFilter}
+                onFilterClick={filterClicksByDate}
+                onShowTotalClicks={showTotalClicks}
+              />
+            )}
+            <TableComponent
+              isAdmin={admin}
+              data={currentForm === "clicks" ? clicksData : users}
+              currentForm={currentForm}
             />
-            <TableComponent isAdmin={admin} clicks={filteredClicks} />
           </>
         ) : (
-          <NoDataMessage>Não há cliques registrados ainda.</NoDataMessage>
+          <NoDataMessage>
+            {currentForm === "clicks"
+              ? "Não há cliques registrados ainda."
+              : "Não há usuários registrados ainda."}
+          </NoDataMessage>
         )}
       </DashboardContainer>
     </>

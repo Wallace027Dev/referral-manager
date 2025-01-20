@@ -8,10 +8,7 @@ import TableComponent from "@/_components/TableComponent";
 import FilterButtons from "@/_components/FilterButtons";
 import DashboardHeader from "@/_components/DashboardHeader";
 
-import {
-  DashboardContainer,
-  NoDataMessage
-} from "../style";
+import { DashboardContainer, NoDataMessage } from "./style";
 
 export default function Home() {
   const [clicks, setClicks] = useState<IClick[]>([]);
@@ -26,9 +23,17 @@ export default function Home() {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/clicks/${id}`
         );
+        
+        if (response.status === 404) {
+          setClicks([]);
+          setFilteredClicks([]);
+          return;
+        }
+  
         if (!response.ok) {
           throw new Error("Erro ao buscar cliques");
         }
+  
         const data = await response.json();
         setClicks(data);
         setFilteredClicks(data);
@@ -36,9 +41,10 @@ export default function Home() {
         console.error("Erro ao buscar cliques:", error);
       }
     }
-
+  
     getClicks();
   }, [id]);
+  
 
   function filterClicksByDate(monthsAgo: number) {
     const { startDate, endDate } = getStartAndEndDate(monthsAgo);
@@ -56,7 +62,6 @@ export default function Home() {
     setFilteredClicks(clicks);
     setActiveFilter("total");
   }
-
 
   return (
     <>

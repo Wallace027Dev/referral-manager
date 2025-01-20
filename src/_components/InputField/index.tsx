@@ -13,7 +13,7 @@ const InputField = ({
   label,
   type,
   placeholder,
-  isValid = true,
+  isValid,
   error,
   ...props
 }: InputFieldProps) => (

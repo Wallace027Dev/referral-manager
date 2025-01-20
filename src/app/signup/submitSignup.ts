@@ -30,7 +30,17 @@ async function submitSignup(
     if (response.ok) {
       router.replace("/login");
     } else {
-      setMessage(result.message || "Erro ao cadastrar usuário.");
+      if (response.status === 409) {
+        setMessage(
+          "Falha no cadastro: O WhatsApp informado já está registrado."
+        );
+      } else {
+        // Tratamento genérico para outros erros
+        const errorMessage =
+          result?.message ||
+          `Erro desconhecido. Código HTTP: ${response.status}`;
+        setMessage(`Falha no cadastro: ${errorMessage}`);
+      }
     }
   } catch (error) {
     setMessage("Erro ao cadastrar usuário.");

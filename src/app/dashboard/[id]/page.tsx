@@ -14,26 +14,42 @@ export default function Home() {
   const [clicks, setClicks] = useState<IClick[]>([]);
   const [filteredClicks, setFilteredClicks] = useState<IClick[]>([]);
   const [activeFilter, setActiveFilter] = useState<string>("total");
+  const [admin, setAdmin] = useState(false);
 
   const { id } = useParams<{ id: string }>();
+  useEffect(() => {
+    if (id === "admin") {
+      setAdmin(true);
+    } else {
+      setAdmin(false);
+    }
+  }, [id]);
 
   useEffect(() => {
     async function getClicks() {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/clicks/${id}`
-        );
-        
+        let response;
+
+        if (admin) {
+          response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/clicks` // Exemplo de URL que pode estar com problema
+          );
+        } else {
+          response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/clicks/${id}`
+          );
+        }
+
         if (response.status === 404) {
           setClicks([]);
           setFilteredClicks([]);
           return;
         }
-  
+
         if (!response.ok) {
           throw new Error("Erro ao buscar cliques");
         }
-  
+
         const data = await response.json();
         setClicks(data);
         setFilteredClicks(data);
@@ -41,10 +57,9 @@ export default function Home() {
         console.error("Erro ao buscar cliques:", error);
       }
     }
-  
+
     getClicks();
-  }, [id]);
-  
+  }, [admin, id]);
 
   function filterClicksByDate(monthsAgo: number) {
     const { startDate, endDate } = getStartAndEndDate(monthsAgo);
@@ -65,7 +80,7 @@ export default function Home() {
 
   return (
     <>
-      <DashboardHeader userId={id} />
+      {admin ? <header>Olá admin</header> : <DashboardHeader userId={id} />}
       <DashboardContainer>
         {clicks.length > 0 ? (
           <>
@@ -74,7 +89,7 @@ export default function Home() {
               onFilterClick={filterClicksByDate}
               onShowTotalClicks={showTotalClicks}
             />
-            <TableComponent clicks={filteredClicks} />
+            <TableComponent isAdmin={admin} clicks={filteredClicks} />
           </>
         ) : (
           <NoDataMessage>Não há cliques registrados ainda.</NoDataMessage>

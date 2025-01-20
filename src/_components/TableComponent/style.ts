@@ -9,12 +9,12 @@ export const Table = styled.table`
 `;
 
 export const TableHeader = styled.thead`
-  background-color: #f4f4f4;
+  background-color: #007bff;
 
   th {
     padding: 1rem;
     font-size: 1rem;
-    color: #333;
+    color: #f9f9f9;
     border-bottom: 2px solid #ddd;
   }
 

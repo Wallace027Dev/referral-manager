@@ -5,6 +5,18 @@ import clicksService from "@/_services/clicksService";
 import { NextResponse } from "next/server";
 
 class ClicksController {
+  async listAll(queryParams: Partial<IClick>) {
+    try {
+      const clicks = await clicksService.listAll(queryParams);
+      return NextResponse.json(clicks);
+    } catch (error: any) {
+      if (error instanceof Error && error.message in errorMessages) {
+        return handleError(error.message as keyof typeof errorMessages);
+      }
+      return handleError("INTERNAL_SERVER_ERROR");
+    }
+  }
+
   async listAllByUserId(userId: number, queryParams: Partial<IClick>) {
     try {
       const clicks = await clicksService.listAllByUserId(userId, queryParams);

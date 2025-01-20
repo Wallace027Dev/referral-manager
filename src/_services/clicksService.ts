@@ -3,6 +3,31 @@ import prisma from "../../prisma/prisma";
 import errorMessages from "@/_error/errorMessages";
 
 class ClicksService {
+  async listAll(queryParams: Partial<IClick>) {
+    try {
+      // Busca os cliques do usuário
+      const clicks = await prisma.click.findMany({
+        where: {
+          contact: queryParams.contact ?? undefined,
+          clicked_at: queryParams.clicked_at ?? undefined,
+          deleted_at: null
+        }
+      });
+
+      // Verifica se há cliques registrados
+      if (clicks.length === 0) {
+        throw new Error("NO_CLICKS_REGISTERED");
+      }
+
+      return clicks;
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message in errorMessages) {
+        throw new Error(error.message);
+      }
+      throw new Error("INTERNAL_SERVER_ERROR");
+    }
+  }
+
   async listAllByUserId(userId: number, queryParams: Partial<IClick>) {
     try {
       // Verifica se o usuário existe

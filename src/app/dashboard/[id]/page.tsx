@@ -1,26 +1,27 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-
+// Importa os tipos de dados e funções utilitárias
 import IClick from "@/_interfaces/IClick";
 import IUser from "@/_interfaces/IUser";
 import getStartAndEndDate from "@/_utils/getStartAndEndDate";
-import TableComponent from "@/_components/TableComponent";
-import FilterButtons from "@/_components/FilterButtons";
 import DashboardHeader from "@/_components/DashboardHeader";
-
+// Importa componentes de UI reutilizáveis
 import { DashboardContainer, NoDataMessage } from "./style";
+import ClickDataSection from "@/_components/ClickDataSection";
+import UserDataSection from "@/_components/UserDataSection";
 
-export default function Home() {
+// Função principal do componente de Dashboard
+const Dashboard: React.FC = () => {
   const [clicks, setClicks] = useState<IClick[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [filteredClicks, setFilteredClicks] = useState<IClick[]>([]);
   const [activeFilter, setActiveFilter] = useState("total");
   const [isAdmin, setIsAdmin] = useState(false);
   const [currentForm, setCurrentForm] = useState<"clicks" | "users">("clicks");
-
+  // Pega o parâmetro 'id' da URL (usado para diferenciar o comportamento de visualização)
   const { id } = useParams<{ id: string }>();
-
+  // Função assíncrona para buscar dados do backend (cliques ou usuários)
   const fetchData = useCallback(async () => {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -32,6 +33,7 @@ export default function Home() {
       if (!response.ok) throw new Error("Erro ao buscar dados");
 
       const data = await response.json();
+      
       currentForm === "clicks" ? setClicks(data) : setUsers(data);
       setFilteredClicks(currentForm === "clicks" ? data : []);
     } catch (error) {
@@ -83,18 +85,17 @@ export default function Home() {
       <DashboardContainer>
         {(currentForm === "clicks" ? clicks : users).length > 0 ? (
           <>
-            {currentForm === "clicks" && (
-              <FilterButtons
+            {currentForm === "clicks" ? (
+              <ClickDataSection
                 activeFilter={activeFilter}
-                onFilterClick={filterClicksByDate}
-                onShowTotalClicks={showTotalClicks}
+                filterClicksByDate={filterClicksByDate}
+                showTotalClicks={showTotalClicks}
+                filteredClicks={filteredClicks}
+                clicks={clicks}
               />
+            ) : (
+              <UserDataSection users={users} />
             )}
-            <TableComponent
-              isAdmin={isAdmin}
-              data={currentForm === "clicks" ? filteredClicks : users}
-              currentForm={currentForm}
-            />
           </>
         ) : (
           <NoDataMessage>
@@ -106,4 +107,6 @@ export default function Home() {
       </DashboardContainer>
     </>
   );
-}
+};
+
+export default Dashboard;

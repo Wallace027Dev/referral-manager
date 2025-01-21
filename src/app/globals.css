@@ -2,6 +2,11 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+
+  --primary: #111D66;
+  --secondary: #F4AE13;
+  --font: #00144B;
+  --bg-color: #fcfcfc;
 }
 
 * {
@@ -18,7 +23,6 @@ body {
   text-align: center;
   min-width: 320px;
   min-height: 100vh;
-  margin: auto 1rem;
 }
 
 h1 {

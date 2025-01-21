@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FilterSelect } from "./style";
 
 interface FilterProps {

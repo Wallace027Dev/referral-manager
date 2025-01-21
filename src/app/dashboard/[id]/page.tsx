@@ -91,7 +91,6 @@ const Dashboard: React.FC = () => {
                 filterClicksByDate={filterClicksByDate}
                 showTotalClicks={showTotalClicks}
                 filteredClicks={filteredClicks}
-                clicks={clicks}
               />
             ) : (
               <UserDataSection users={users} />

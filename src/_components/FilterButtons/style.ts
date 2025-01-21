@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const FilterSelect = styled.div`
   margin-bottom: 8px;
+  max-width: 800px;
+  margin: 0 auto;
 
   select {
     padding: 10px;

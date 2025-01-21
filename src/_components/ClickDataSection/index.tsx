@@ -2,20 +2,19 @@ import IClick from "@/_interfaces/IClick";
 import FilterButtonsComponent from "../FilterButtons";
 import TableComponent from "../TableComponent";
 
-const ClickDataSection: React.FC<{
+interface IClickDataSectionProps {
   activeFilter: string;
   filterClicksByDate: (monthsAgo: number) => void;
   showTotalClicks: () => void;
   filteredClicks: IClick[];
-  clicks: IClick[];
-}> = ({
+}
+
+const ClickDataSection: React.FC<IClickDataSectionProps> = ({
   activeFilter,
   filterClicksByDate,
   showTotalClicks,
-  filteredClicks,
-  clicks
+  filteredClicks
 }) => {
-  console.log(clicks, filteredClicks)
   return (
     <>
       <FilterButtonsComponent

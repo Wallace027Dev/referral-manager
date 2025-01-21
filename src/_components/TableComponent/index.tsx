@@ -28,7 +28,7 @@ const TableComponent: React.FC<TableProps> = ({ isAdmin, data, currentForm }) =>
     return Object.keys(groupedClicks).map((userId) => {
       const userClicks = groupedClicks[userId];
       const totalClicks = userClicks.length;
-      console.log(data)
+
       return (
         <React.Fragment key={userId}>
           <tr>

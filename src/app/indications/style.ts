@@ -1,15 +1,18 @@
 import styled from "styled-components";
 
 export const Header = styled.header`
-  margin-bottom: 20px;
+  margin: 20px auto;
 `;
 
 export const Main = styled.main`
   form {
     label,
-    input,
-    p {
+    input {
       text-align: left;
+    }
+
+    label {
+      color: var(--primary);
     }
 
     div {
@@ -20,7 +23,6 @@ export const Main = styled.main`
 `;
 
 export const Input = styled.input`
-  width: 100%;
   margin-top: 10px;
   text-align: center;
 

@@ -1,13 +1,17 @@
 import styled from "styled-components";
 
 const FormOptionButton = styled.div`
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+
   button {
     background: none;
     padding: 0;
   }
 
   button {
-    color: #007bff;
+    color: var(--primary);
     font-weight: 700;
     position: relative;
 
@@ -18,7 +22,7 @@ const FormOptionButton = styled.div`
       left: 50%;
       width: 0;
       height: 2px;
-      background: #007bff;
+      background: var(--primary);
       transition: width 0.3s ease, transform 0.3s ease;
       transform: translateX(-50%);
     }

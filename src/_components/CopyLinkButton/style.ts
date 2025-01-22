@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
 const CopyButton = styled.button<{ copied: boolean }>`
-  margin-left: 10px;
+  margin: 1rem auto;
   padding: 5px 10px;
   font-size: 0.9rem;
-  background-color: ${({ copied }) => (copied ? "#28a745" : "#007bff")};
+  background-color: ${({ copied }) =>
+    copied ? "var(--secondary)" : "var(--primary)"};
   color: white;
   border: none;
   border-radius: 5px;
@@ -13,7 +14,8 @@ const CopyButton = styled.button<{ copied: boolean }>`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ copied }) => (copied ? "#218838" : "#0056b3")};
+    background-color: ${({ copied }) =>
+      copied ? "var(--secondary)" : "var(--primary)"};
   }
 
   ${({ copied }) =>

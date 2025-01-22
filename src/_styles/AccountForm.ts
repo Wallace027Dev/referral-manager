@@ -4,6 +4,7 @@ const Form = styled.form`
   width: 100%;
   max-width: 1280px;
   padding: 1rem;
+  margin: 3rem auto;
 
   div {
     display: flex;
@@ -22,7 +23,6 @@ const Form = styled.form`
   input,
   button {
     width: 100%;
-    min-width: 280px;
   }
 
   input {

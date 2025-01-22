@@ -21,7 +21,7 @@ const InputField = ({
     <label htmlFor={id}>{label}:</label>
     <input id={id} type={type} placeholder={placeholder} {...props} />
     {error && (
-      <p style={{ color: isValid ? "#007bff" : "red" }}>{error}</p>
+      <p style={{ color: isValid ? "var(--primary)" : "red" }}>{error}</p>
     )}
   </div>
 );

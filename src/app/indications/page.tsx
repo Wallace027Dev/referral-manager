@@ -2,9 +2,12 @@
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Button, Header, Main } from "./style";
+import { useClickRegistration } from "./useClickRegistration";
 import AccountForm from "../../_styles/AccountForm";
 import InputField from "@/_components/InputField";
-import { useClickRegistration } from "./useClickRegistration";
+
+import logo from "@/_images/mava-logo.webp"
+import Image from "next/image";
 
 export default function DashboardHeader() {
   const searchParams = useSearchParams();
@@ -25,7 +28,7 @@ export default function DashboardHeader() {
   return (
     <>
       <Header>
-        <h1>Bem-vindo à Mava</h1>
+        <Image src={logo} alt="Logomarca Mava" height={64} />
       </Header>
       <Main>
         <AccountForm onSubmit={handleSubmit}>

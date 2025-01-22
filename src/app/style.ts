@@ -48,7 +48,7 @@ export const Anchor = styled.a`
 `;
 
 export const Main = styled.main`
-  flex: 1; // Permite que o Main ocupe o espaço restante
+  flex: 1;
   max-width: 1220px;
   margin: 84px auto 0;
   padding: 0 1rem;
@@ -75,7 +75,6 @@ export const AboutSection = styled.section`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  max-width: 1120px;
   margin-top: 10rem;
 
   img {
@@ -110,15 +109,12 @@ export const AboutSection = styled.section`
 `;
 
 export const Footer = styled.footer`
-  position: fixed;
-  bottom: 0;
   width: 100%;
   color: var(--bg-color);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   height: 420px;
-  margin-top: auto;
   background: radial-gradient(
     circle,
     rgba(17, 29, 102, 1) 0%,

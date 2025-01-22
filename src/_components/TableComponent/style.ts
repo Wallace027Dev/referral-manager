@@ -5,17 +5,17 @@ export const Table = styled.table`
   max-width: 800px;
   margin: 0 auto;
   border-collapse: collapse;
-  border: 0.5px solid #ddd;
+  border: 0.5px solid var(--primary);
 `;
 
 export const TableHeader = styled.thead`
-  background-color: #007bff;
+  background-color: var(--primary);
 
   th {
     padding: 1rem;
     font-size: 1rem;
-    color: #f9f9f9;
-    border-bottom: 2px solid #ddd;
+    color: var(--bg-color);
+    border-bottom: 2px solid var(--primary);
   }
 
   @media (max-width: 768px) {
@@ -33,6 +33,6 @@ export const TableBody = styled.tbody`
   td {
     padding: 0.8rem;
     text-align: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--primary);
   }
 `;

@@ -38,7 +38,7 @@ const TableComponent: React.FC<TableProps> = ({ isAdmin, data, currentForm }) =>
                 color: "#f9f9f9",
                 fontWeight: "bold",
                 textAlign: "left",
-                backgroundColor: "#4d90fe",
+                backgroundColor: "var(--secondary)",
                 paddingLeft: "15px",
               }}
             >

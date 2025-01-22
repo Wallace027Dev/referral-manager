@@ -38,6 +38,18 @@ const Form = styled.form`
     text-align: center;
     margin-top: 2rem;
   }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 435px) {
+    h1 {
+      font-size: 2rem;
+    }
+  }
 `;
 
 export default Form;

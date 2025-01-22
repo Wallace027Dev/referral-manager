@@ -9,7 +9,11 @@ interface TableProps {
   currentForm: string;
 }
 
-const TableComponent: React.FC<TableProps> = ({ isAdmin, data, currentForm }) => {
+const TableComponent: React.FC<TableProps> = ({
+  isAdmin,
+  data,
+  currentForm
+}) => {
   const isClickData = data.length > 0 && "clicked_at" in data[0];
 
   // Função para agrupar os dados de clique por usuário (se for admin)
@@ -33,14 +37,8 @@ const TableComponent: React.FC<TableProps> = ({ isAdmin, data, currentForm }) =>
         <React.Fragment key={userId}>
           <tr>
             <td
+              className="td_separator"
               colSpan={2}
-              style={{
-                color: "#f9f9f9",
-                fontWeight: "bold",
-                textAlign: "left",
-                backgroundColor: "var(--secondary)",
-                paddingLeft: "15px",
-              }}
             >
               {`Usuário ID: ${userId} - Total de Cliques: ${totalClicks}`}
             </td>
@@ -73,17 +71,19 @@ const TableComponent: React.FC<TableProps> = ({ isAdmin, data, currentForm }) =>
     if (currentForm === "clicks") {
       return (
         <tr key={item.id}>
-          <td>{(item as IClick).contact}</td>
-          <td>{new Date((item as IClick).clicked_at).toLocaleDateString("pt-BR")}</td>
+          <td data-label="Contato">{(item as IClick).contact}</td>
+          <td data-label="Data do Clique">
+            {new Date((item as IClick).clicked_at).toLocaleDateString("pt-BR")}
+          </td>
         </tr>
       );
     } else {
       return (
         <tr key={item.id}>
-          <td>{(item as IUser).name}</td>
-          <td>{(item as IUser).whatsapp}</td>
-          <td>{(item as IUser).pix_key}</td>
-          <td>{(item as IUser).clicks.length}</td>
+          <td data-label="Nome">{(item as IUser).name}</td>
+          <td data-label="WhatsApp">{(item as IUser).whatsapp}</td>
+          <td data-label="Chave PIX">{(item as IUser).pix_key}</td>
+          <td data-label="Total de Cliques">{(item as IUser).clicks.length}</td>
         </tr>
       );
     }

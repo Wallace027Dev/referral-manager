@@ -4,6 +4,7 @@ export const DashboardContainer = styled.main`
   font-family: Arial, sans-serif;
   text-align: center;
   color: var(--font);
+  padding: 1rem;
 `;
 
 export const NoDataMessage = styled.p`

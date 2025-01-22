@@ -21,7 +21,7 @@ a {
 
 body {
   text-align: center;
-  min-width: 320px;
+  min-width: 300px;
   min-height: 100vh;
   margin: auto;
   color: var(--font);

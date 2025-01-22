@@ -1,11 +1,5 @@
 import styled from "styled-components";
 
-export const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
 export const Header = styled.header`
   background-color: var(--primary);
   width: 100%;
@@ -29,6 +23,17 @@ export const Header = styled.header`
       object-fit: contain;
     }
   }
+
+  @media (max-width: 425px) {
+    padding: 0 1rem;
+
+    div {
+      img {
+        height: 30px;
+        width: 120px;
+      }
+    }
+  }
 `;
 
 export const Anchor = styled.a`
@@ -45,13 +50,21 @@ export const Anchor = styled.a`
     color: var(--bg-color);
     transition: background-color 0.5s ease, color 0.5s ease;
   }
+
+  @media (max-width: 768px) {
+    padding: 0.35rem 2.5rem;
+  }
+
+  @media (max-width: 425px) {
+    padding: 0.2rem 1rem;
+    font-size: 0.8rem;
+  }
 `;
 
 export const Main = styled.main`
-  flex: 1;
   max-width: 1220px;
   margin: 84px auto 0;
-  padding: 0 1rem;
+  padding: 0 2rem;
   text-align: start;
 
   h1 {
@@ -68,11 +81,33 @@ export const Main = styled.main`
     font-weight: 600;
     font-size: 1.5rem;
   }
+
+  @media (max-width: 1024px) {
+    text-align: center;
+
+    h1 {
+      font-size: 3rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+    h1 {
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
 `;
 
 export const AboutSection = styled.section`
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   margin-top: 10rem;
@@ -104,6 +139,19 @@ export const AboutSection = styled.section`
         color: var(--secondary);
         transition: background-color 0.5s ease, color 0.5s ease;
       }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    margin-top: 3rem;
+    flex-direction: column-reverse;
+
+    img {
+      margin-top: 3rem;
+    }
+
+    a {
+      padding: 0.35rem 3rem;
     }
   }
 `;
@@ -142,6 +190,7 @@ export const Footer = styled.footer`
       border-radius: 50%;
       width: 32px;
       height: 32px;
+      margin: 1rem;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
       &:hover {
@@ -153,6 +202,21 @@ export const Footer = styled.footer`
         width: 16px;
         height: 16px;
       }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    img {
+      height: auto;
+      width: 50%;
     }
   }
 `;

@@ -29,6 +29,7 @@ export default function Page() {
         submitSignup(data, setLoading, setMessage, router)
       )}
     >
+      <h1>Cadastre-se</h1>
       <InputField
         id="name"
         label="Nome"

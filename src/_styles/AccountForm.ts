@@ -12,6 +12,11 @@ const Form = styled.form`
     align-items: start;
   }
 
+  h1 {
+    color: var(--primary);
+    font-weight: 900;
+  }
+
   p {
     color: #ff2401;
   }

@@ -2,9 +2,13 @@ import styled from "styled-components";
 
 export const Header = styled.header`
   margin: 20px auto;
+  max-width: 1120px;
 `;
 
 export const Main = styled.main`
+  max-width: 1120px;
+  margin: auto;
+
   form {
     label,
     input {

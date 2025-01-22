@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { AboutSection, Anchor, AppContainer, Footer, Header, Main } from "./style";
+import { AboutSection, Anchor, Footer, Header, Main } from "./style";
 import mava from "@/_images/mava-logo.webp";
 import motocycle from "@/_images/motocicleta.webp";
 import instagram from "@/_images/instagram.png";
@@ -11,7 +11,7 @@ export default function Page() {
     "https://wa.me/557331911055?text=Vim%20atrav%C3%A9s%20do%20site%20www.mava.org.br%2C%20gostaria%20de%20saber%20mais%20e%20*simular%20um%20plano%20de%20prote%C3%A7%C3%A3o*%20para%20minha%20moto%2C%20Obrigado.";
 
   return (
-    <AppContainer>
+    <>
       <Header>
         <div>
           <Image src={mava} alt="Logomarca Mava" />
@@ -65,6 +65,6 @@ export default function Page() {
           </a>
         </div>
       </Footer>
-    </AppContainer>
+    </>
   );
 }

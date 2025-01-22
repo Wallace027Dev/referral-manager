@@ -31,6 +31,7 @@ export default function LoginPage() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
+      <h1>Logue-se</h1>
       <InputField
         id="input-whatsapp"
         label="WhatsApp"

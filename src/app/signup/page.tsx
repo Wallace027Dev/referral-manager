@@ -30,50 +30,53 @@ export default function Page() {
       )}
     >
       <h1>Cadastre-se</h1>
-      <InputField
-        id="name"
-        label="Nome"
-        type="text"
-        placeholder="Seu nome completo"
-        error={errors.name?.message}
-        {...register("name")}
-      />
-      <InputField
-        id="pix_key"
-        label="Chave Pix"
-        type="text"
-        placeholder="Sua chave Pix"
-        error={errors.pix_key?.message}
-        {...register("pix_key")}
-      />
-      <InputField
-        id="whatsapp"
-        label="WhatsApp"
-        type="tel"
-        placeholder="Seu número com DDD"
-        error={errors.whatsapp?.message}
-        {...register("whatsapp")}
-      />
-      <InputField
-        id="password"
-        label="Senha"
-        type="password"
-        placeholder="Sua senha"
-        error={errors.password?.message}
-        {...register("password")}
-      />
-      <InputField
-        id="confirmPassword"
-        label="Confirmação de Senha"
-        type="password"
-        placeholder="Confirme sua senha"
-        error={errors.confirmPassword?.message}
-        {...register("confirmPassword")}
-      />
-      <button type="submit" disabled={loading}>
-        {loading ? "Cadastrando..." : "Cadastrar"}
-      </button>
-      {message && <p>{message}</p>}
+      <div>
+
+        <InputField
+          id="name"
+          label="Nome"
+          type="text"
+          placeholder="Seu nome completo"
+          error={errors.name?.message}
+          {...register("name")}
+        />
+        <InputField
+          id="pix_key"
+          label="Chave Pix"
+          type="text"
+          placeholder="Sua chave Pix"
+          error={errors.pix_key?.message}
+          {...register("pix_key")}
+        />
+        <InputField
+          id="whatsapp"
+          label="WhatsApp"
+          type="tel"
+          placeholder="Seu número com DDD"
+          error={errors.whatsapp?.message}
+          {...register("whatsapp")}
+        />
+        <InputField
+          id="password"
+          label="Senha"
+          type="password"
+          placeholder="Sua senha"
+          error={errors.password?.message}
+          {...register("password")}
+        />
+        <InputField
+          id="confirmPassword"
+          label="Confirmação de Senha"
+          type="password"
+          placeholder="Confirme sua senha"
+          error={errors.confirmPassword?.message}
+          {...register("confirmPassword")}
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? "Cadastrando..." : "Cadastrar"}
+        </button>
+        {message && <p>{message}</p>}
+      </div>
     </Form>
   );
 }

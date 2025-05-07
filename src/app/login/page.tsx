@@ -32,26 +32,28 @@ export default function LoginPage() {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <h1>Logue-se</h1>
-      <InputField
-        id="input-whatsapp"
-        label="WhatsApp"
-        type="tel"
-        placeholder="Seu número com DDD"
-        error={errors.whatsapp?.message}
-        {...register("whatsapp")}
-      />
-      <InputField
-        id="input-password"
-        label="Senha"
-        type="password"
-        placeholder="Sua senha"
-        error={errors.password?.message}
-        {...register("password")}
-      />
-      <button type="submit" disabled={loading}>
-        {loading ? "Entrando..." : "Entrar"}
-      </button>
-      {message && <p>{message}</p>}
+      <div>
+        <InputField
+          id="input-whatsapp"
+          label="WhatsApp"
+          type="tel"
+          placeholder="Seu número com DDD"
+          error={errors.whatsapp?.message}
+          {...register("whatsapp")}
+        />
+        <InputField
+          id="input-password"
+          label="Senha"
+          type="password"
+          placeholder="Sua senha"
+          error={errors.password?.message}
+          {...register("password")}
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? "Entrando..." : "Entrar"}
+        </button>
+        {message && <p>{message}</p>}
+      </div>
     </Form>
   );
 }

@@ -9,13 +9,19 @@ export const Header = styled.header`
   align-items: center;
   justify-content: center;
 
-  div {
+  > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-width: 1220px;
     width: 100%;
     margin: 0 auto;
+
+    div {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
 
     img {
       height: 40px;
@@ -68,7 +74,7 @@ export const Main = styled.main`
   text-align: start;
 
   h1 {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 4vw, 4rem);
     color: var(--secondary);
 
     span {
@@ -109,19 +115,23 @@ export const Main = styled.main`
 export const AboutSection = styled.section`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-top: 10rem;
 
   img {
     width: 100%;
     max-width: 430px;
     height: auto;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   div {
+    margin-bottom: 1.5rem;
     max-width: 580px;
     color: var(--primary);
+
+    p {
+      margin: 1rem;
+    }
 
     span {
       font-weight: 700;
@@ -142,16 +152,30 @@ export const AboutSection = styled.section`
     }
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1366px) {
     margin-top: 3rem;
     flex-direction: column-reverse;
+    align-items: center;
 
-    img {
-      margin-top: 3rem;
+    div {
+      max-width: 100%;
+      margin-bottom: 5vh;
     }
 
     a {
       padding: 0.35rem 3rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    div {
+      margin-bottom: 2vh;
+    }
+  }
+
+  @media (max-width: 768px) {
+    div {
+      margin-bottom: 14vh;
     }
   }
 `;

@@ -17,7 +17,7 @@ const InputField = ({
   error,
   ...props
 }: InputFieldProps) => (
-  <div>
+  <div style={{ width: "100%" }}>
     <label htmlFor={id}>{label}:</label>
     <input id={id} type={type} placeholder={placeholder} {...props} />
     {error && (

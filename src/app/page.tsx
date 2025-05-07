@@ -15,7 +15,10 @@ export default function Page() {
       <Header>
         <div>
           <Image src={mava} alt="Logomarca Mava" />
-          <Anchor href="/signup">Registrar-se</Anchor>
+          <div>
+            <a style={{ background: "transparent", color: "#F4AE13", fontWeight: "bold" }} href="/login">Conectar-se</a>
+            <Anchor href="/signup">Registrar-se</Anchor>
+          </div>
         </div>
       </Header>
       <Main>

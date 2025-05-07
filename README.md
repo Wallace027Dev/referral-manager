@@ -3,6 +3,14 @@
 
 Este é um projeto desenvolvido com [Next.js](https://nextjs.org) para gerenciar indicações de usuários e cliques em links personalizados. O sistema permite o cadastro de usuários, login, geração de links de indicação, e visualização de dados de cliques e usuários.
 
+## 👀 Preview
+
+<div align="center">
+  <img src="./public/preview-1.png" alt="Tela inicial" width="32%"/>
+  <img src="./public/preview-2.png" alt="Dashboard de indicações" width="32%"/>
+  <img src="./public/preview-3.png" alt="Detalhes do usuário" width="32%"/>
+</div>
+
 ## Funcionalidades
 
 - **Cadastro de Usuários**: Permite que novos usuários se cadastrem com informações como nome, WhatsApp, chave Pix e senha.
@@ -57,6 +65,18 @@ A estrutura do projeto é organizada da seguinte forma:
 
 - Node.js (versão 18 ou superior)
 - MySQL (configurado no arquivo `.env` com a variável `DATABASE_URL`)
+
+## Configuração do Arquivo `.env`
+
+Antes de iniciar o projeto, configure as variáveis de ambiente no arquivo `.env`:
+
+```properties
+DATABASE_URL= # URL de conexão com o banco de dados MySQL
+BASE_URL= # URL base do servidor
+JWT_SECRET= # Chave secreta para geração de tokens JWT
+NEXT_PUBLIC_BASE_URL= # URL pública da aplicação
+NEXT_PUBLIC_DEFAULT_WHATSAPP_NUMBER= # Número padrão do WhatsApp
+NEXT_PUBLIC_DEFAULT_WHATSAPP_MESSAGE= # Mensagem padrão do WhatsApp
 
 ## Instalação
 

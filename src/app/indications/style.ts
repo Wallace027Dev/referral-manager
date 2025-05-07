@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Header = styled.header`
-  margin: 20px auto;
+  margin: 2rem auto;
   max-width: 1120px;
 `;
 

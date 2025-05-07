@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Gestor de Indicações
 
-First, run the development server:
+Este é um projeto desenvolvido com [Next.js](https://nextjs.org) para gerenciar indicações de usuários e cliques em links personalizados. O sistema permite o cadastro de usuários, login, geração de links de indicação, e visualização de dados de cliques e usuários.
+
+## Funcionalidades
+
+- **Cadastro de Usuários**: Permite que novos usuários se cadastrem com informações como nome, WhatsApp, chave Pix e senha.
+- **Login**: Autenticação de usuários com WhatsApp e senha.
+- **Geração de Links de Indicação**: Cada usuário pode gerar um link único para compartilhar.
+- **Registro de Cliques**: Registra cliques nos links de indicação.
+- **Dashboard**: Visualização de dados de cliques e usuários, com filtros por período.
+- **Administração**: Acesso administrativo para visualizar todos os usuários e cliques.
+
+## Tecnologias Utilizadas
+
+- **Next.js**: Framework React para renderização no lado do servidor e geração de páginas estáticas.
+- **React**: Biblioteca para construção de interfaces de usuário.
+- **TypeScript**: Superset do JavaScript que adiciona tipagem estática.
+- **Styled-Components**: Biblioteca para estilização de componentes.
+- **Prisma**: ORM para interação com o banco de dados MySQL.
+- **Yup e Joi**: Validação de dados no frontend e backend.
+- **JWT**: Autenticação baseada em tokens.
+- **Bcrypt**: Criptografia de senhas.
+
+## Estrutura do Projeto
+
+A estrutura do projeto é organizada da seguinte forma:
+
+```
+├── prisma/                  # Configuração do Prisma e seed do banco de dados
+├── public/                  # Arquivos públicos (imagens, ícones, etc.)
+├── src/
+│   ├── _components/         # Componentes reutilizáveis
+│   ├── _controllers/        # Controladores para lógica de negócio
+│   ├── _error/              # Tratamento de erros
+│   ├── _interfaces/         # Interfaces TypeScript
+│   ├── _services/           # Serviços para interação com o banco de dados
+│   ├── _styles/             # Estilos globais e componentes estilizados
+│   ├── _types/              # Tipos TypeScript
+│   ├── _utils/              # Funções utilitárias
+│   ├── _validators/         # Validação de dados
+│   ├── app/                 # Páginas e rotas do Next.js
+│   │   ├── api/             # Rotas de API
+│   │   ├── dashboard/       # Dashboard de usuários e cliques
+│   │   ├── indications/     # Página de registro de cliques
+│   │   ├── login/           # Página de login
+│   │   ├── signup/          # Página de cadastro
+│   │   └── style.ts         # Estilos específicos das páginas
+├── .gitignore               # Arquivos ignorados pelo Git
+├── package.json             # Dependências e scripts do projeto
+├── tsconfig.json            # Configuração do TypeScript
+└── README.md                # Documentação do projeto
+```
+
+## Pré-requisitos
+
+- Node.js (versão 18 ou superior)
+- MySQL (configurado no arquivo `.env` com a variável `DATABASE_URL`)
+
+## Instalação
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/seu-usuario/gestor-indicacoes.git
+   cd gestor-indicacoes
+   ```
+
+2. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+3. Configure o banco de dados no arquivo `.env`:
+
+   ```env
+   DATABASE_URL=mysql://usuario:senha@localhost:3306/nome_do_banco
+   ```
+
+4. Execute as migrações do Prisma:
+
+   ```bash
+   npx prisma migrate dev
+   ```
+
+5. Popule o banco de dados com dados fictícios (opcional):
+
+   ```bash
+   npm run seed
+   ```
+
+## Como Executar o Projeto
+
+### Desenvolvimento
+
+Para iniciar o servidor de desenvolvimento:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000) no navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Produção
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Para construir e iniciar o projeto em produção:
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts Disponíveis
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `npm run dev`: Inicia o servidor de desenvolvimento.
+- `npm run build`: Gera a build de produção.
+- `npm start`: Inicia o servidor em produção.
+- `npm run lint`: Executa o linter.
+- `npm run seed`: Popula o banco de dados com dados fictícios.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contribuição
 
-## Deploy on Vercel
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Licença
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).

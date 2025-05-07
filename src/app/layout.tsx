@@ -23,7 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
+      <head>
+        <title>Mava - Proteção para motos</title>
+        <meta name="description" content="Sistema de gestão de indicações" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>

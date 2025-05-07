@@ -128,9 +128,10 @@ export const AboutSection = styled.section`
     margin-bottom: 1.5rem;
     max-width: 580px;
     color: var(--primary);
+    text-align: start;
 
     p {
-      margin: 1rem;
+      margin: 1rem 0;
     }
 
     span {
